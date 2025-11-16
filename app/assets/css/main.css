@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+@theme {
+    --color-text-muted: var(--color-zinc-500);
+    --color-text-base: var(--color-zinc-900);
+
+    --color-bg-base: var(--color-zinc-100);
+    --color-bg-light: var(--color-zinc-50);
+    --color-bg-dark: var(--color-zinc-200);
+
+    --color-primary: var(--color-blue-700);
+    --color-primary-light: var(--color-blue-600);
+    --color-error: var(--color-rose-700);
+
+    --font-title: 'Mochi Boom', sans-serif;
+}
+
+:root {
+    font-size: 1rem;
+}
+
+body {
+    @apply text-text-base bg-bg-dark;
+}
+
+.title {
+    @apply font-title italic;
+}
+
+.input-error {
+    @apply border-error text-error;
+}
