@@ -78,12 +78,8 @@ async function submit() {
 
 <template>
   <main class="flex h-lvh w-full flex-col items-center justify-center">
-    <div class="bg-bg-base border-bg-dark rounded-2xl px-16 py-8 shadow-lg">
-      <h1
-        class="bg-mint-500 title from-primary-light to-primary mb-8 bg-linear-to-b bg-clip-text px-4 text-9xl text-transparent"
-      >
-        Faster
-      </h1>
+    <div class="bg-bg-base border-bg-dark rounded-2xl px-16 py-10 shadow-lg">
+      <img src="~/assets/images/logo.svg" alt="Dash Logo" class="mb-10 h-20" />
       <form class="relative flex flex-col" @submit.prevent="submit">
         <BaseTextInput
           v-model="fields.username"

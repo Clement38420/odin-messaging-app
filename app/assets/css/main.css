@@ -8,8 +8,8 @@
     --color-bg-light: var(--color-zinc-50);
     --color-bg-dark: var(--color-zinc-200);
 
-    --color-primary: var(--color-blue-700);
-    --color-primary-light: var(--color-blue-600);
+    --color-primary: #282828;
+    --color-primary-light: #3d3d3d;
     --color-error: var(--color-rose-700);
 
     --font-title: 'Mochi Boom', sans-serif;
@@ -21,10 +21,6 @@
 
 body {
     @apply text-text-base bg-bg-dark;
-}
-
-.title {
-    @apply font-title italic;
 }
 
 .input-error {

@@ -11,7 +11,8 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Faster',
+      title: 'DASH',
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
     },
   },
 })
