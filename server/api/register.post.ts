@@ -1,21 +1,20 @@
 import bcrypt from 'bcryptjs'
 
 export default defineEventHandler(async (event) => {
+  const body = await readBody(event)
+
+  const { confirmPassword, ...userData } = validateSchema(
+    userRegisterSchema,
+    body,
+  )
+
   try {
-    const body = await readBody(event)
+    userData.password = await bcrypt.hash(userData.password, 10)
 
-    const { username, password, email } = body
-
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    await db.insert(users).values({
-      username: username,
-      password: hashedPassword,
-      email: email,
-    })
+    await db.insert(users).values(userData)
 
     return sendRedirect(event, '/login', 301)
-  } catch {
-    throw createError({ statusCode: 400, statusMessage: 'Invalid request' })
+  } catch (error) {
+    errorHandler(error)
   }
 })

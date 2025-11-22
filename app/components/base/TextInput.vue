@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="relative mb-6">
+  <div class="relative mb-8">
     <input
       :id="name"
       v-model="model"
@@ -27,7 +27,7 @@ defineProps<{
     >
       {{ title }}
     </label>
-    <p v-show="error" class="text-error absolute mt-1 text-sm">
+    <p v-show="error" class="text-error mt-1 max-w-full text-sm">
       <Icon
         class="align-middle"
         name="material-symbols:error-outline-rounded"

@@ -57,6 +57,9 @@ importers:
       '@iconify-json/material-symbols':
         specifier: ^1.2.46
         version: 1.2.46
+      '@lucaconlaq/drizzle-zod-to-code':
+        specifier: ^0.1.2
+        version: 0.1.2(drizzle-orm@0.44.7(@types/pg@8.15.6)(pg@8.16.3))(zod@4.1.12)
       '@tailwindcss/vite':
         specifier: ^4.1.17
         version: 4.1.17(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.0)(terser@5.44.1)(tsx@4.20.6)(yaml@2.8.1))
@@ -553,6 +556,13 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+
+  '@lucaconlaq/drizzle-zod-to-code@0.1.2':
+    resolution: {integrity: sha512-4dhgG/CVdgtCGLOmsRFEWPBotUWqoOnHXQlTRriGEdNWKiduhjmlCBG3htQrBkqnnkdSLy3l6Ks14tHaHqy5pA==}
+    hasBin: true
+
+  '@lucaconlaq/zod-to-code@0.1.3':
+    resolution: {integrity: sha512-gDnTdmjqSXyT9nx2Zlxaxfp1O0soThMlNVHX9TZn/qL6xgeev4QGRpI/7odL1u3z78IPYMBXPTJ27KoXF3/byg==}
 
   '@mapbox/node-pre-gyp@2.0.0':
     resolution: {integrity: sha512-llMXd39jtP0HpQLVI37Bf1m2ADlEb35GYSh1SDSLsBhR+5iCxiNGlT31yqbNtVHygHAtMy6dWFERpU2JgufhPg==}
@@ -1910,6 +1920,10 @@ packages:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
 
+  commander@13.1.0:
+    resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
+    engines: {node: '>=18'}
+
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
@@ -2242,6 +2256,12 @@ packages:
       sqlite3:
         optional: true
 
+  drizzle-zod@0.7.1:
+    resolution: {integrity: sha512-nZzALOdz44/AL2U005UlmMqaQ1qe5JfanvLujiTHiiT8+vZJTBFhj3pY4Vk+L6UWyKFfNmLhk602Hn4kCTynKQ==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
+
   duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
 
@@ -2468,6 +2488,10 @@ packages:
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
+
+  eta@3.5.0:
+    resolution: {integrity: sha512-e3x3FBvGzeCIHhF+zhK8FZA2vC5uFn6b4HJjegUbIWrDb4mJ7JjTGMJY9VGIbRVpmSwHopNiaJibhjIr+HfLug==}
+    engines: {node: '>=6.0.0'}
 
   etag@1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
@@ -2739,6 +2763,10 @@ packages:
   indent-string@5.0.0:
     resolution: {integrity: sha512-m6FAo/spmsW2Ab2fU35JTYwtOKa2yAwXSwgjSv1TJzh4Mh7mC3lzAOVLBprb72XsTrgkEIsl7YrFNAiDiRhIGg==}
     engines: {node: '>=12'}
+
+  inflection@3.0.2:
+    resolution: {integrity: sha512-+Bg3+kg+J6JUWn8J6bzFmOWkTQ6L/NHfDRSYU+EVvuKHDxUDHAXgqixHfVlzuBQaPOTac8hn43aPhMNk6rMe3g==}
+    engines: {node: '>=18.0.0'}
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -4557,6 +4585,9 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
   zod@4.1.12:
     resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
 
@@ -5048,6 +5079,23 @@ snapshots:
       - supports-color
 
   '@kwsites/promise-deferred@1.1.1': {}
+
+  '@lucaconlaq/drizzle-zod-to-code@0.1.2(drizzle-orm@0.44.7(@types/pg@8.15.6)(pg@8.16.3))(zod@4.1.12)':
+    dependencies:
+      '@lucaconlaq/zod-to-code': 0.1.3
+      change-case: 5.4.4
+      commander: 13.1.0
+      drizzle-zod: 0.7.1(drizzle-orm@0.44.7(@types/pg@8.15.6)(pg@8.16.3))(zod@4.1.12)
+      esbuild: 0.25.12
+      eta: 3.5.0
+      inflection: 3.0.2
+    transitivePeerDependencies:
+      - drizzle-orm
+      - zod
+
+  '@lucaconlaq/zod-to-code@0.1.3':
+    dependencies:
+      zod: 3.25.76
 
   '@mapbox/node-pre-gyp@2.0.0':
     dependencies:
@@ -6591,6 +6639,8 @@ snapshots:
 
   commander@11.1.0: {}
 
+  commander@13.1.0: {}
+
   commander@2.20.3: {}
 
   comment-parser@1.4.1: {}
@@ -6810,6 +6860,11 @@ snapshots:
     optionalDependencies:
       '@types/pg': 8.15.6
       pg: 8.16.3
+
+  drizzle-zod@0.7.1(drizzle-orm@0.44.7(@types/pg@8.15.6)(pg@8.16.3))(zod@4.1.12):
+    dependencies:
+      drizzle-orm: 0.44.7(@types/pg@8.15.6)(pg@8.16.3)
+      zod: 4.1.12
 
   duplexer@0.1.2: {}
 
@@ -7097,6 +7152,8 @@ snapshots:
       '@types/estree': 1.0.8
 
   esutils@2.0.3: {}
+
+  eta@3.5.0: {}
 
   etag@1.8.1: {}
 
@@ -7411,6 +7468,8 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   indent-string@5.0.0: {}
+
+  inflection@3.0.2: {}
 
   inherits@2.0.4: {}
 
@@ -9323,5 +9382,7 @@ snapshots:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
+
+  zod@3.25.76: {}
 
   zod@4.1.12: {}

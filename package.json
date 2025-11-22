@@ -27,6 +27,7 @@
   "devDependencies": {
     "@iconify-json/line-md": "^1.2.11",
     "@iconify-json/material-symbols": "^1.2.46",
+    "@lucaconlaq/drizzle-zod-to-code": "^0.1.2",
     "@tailwindcss/vite": "^4.1.17",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.1",
