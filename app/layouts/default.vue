@@ -5,7 +5,13 @@
     <header
       class="bg-bg-base flex items-center justify-between p-4 text-center shadow-md"
     >
-      <img src="~~/assets/images/logo.svg" alt="Dash logo" class="max-h-full" />
+      <NuxtLink to="/">
+        <img
+          src="~~/assets/images/logo.svg"
+          alt="Dash logo"
+          class="max-h-full"
+        />
+      </NuxtLink>
       <NuxtLink
         to="/profile"
         class="hover-vibration-off hover:text-text-base text-text-muted flex h-[90%] items-center rounded-full transition-transform hover:-translate-y-0.5"
