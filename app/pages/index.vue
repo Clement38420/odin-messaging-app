@@ -5,9 +5,11 @@ definePageMeta({
 </script>
 
 <template>
-  <div>
-    <h1>Welcome to the Home Page</h1>
-    <p>This is the main landing page of the application.</p>
+  <div class="grid grid-cols-8">
+    <aside class="col-span-2 p-8 text-center">
+      <IndexConvCard title="Noélyse" last-message="T où ?" />
+    </aside>
+    <main class="col-span-6 text-center">Current conv</main>
   </div>
 </template>
 

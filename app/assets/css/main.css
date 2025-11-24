@@ -10,6 +10,7 @@
 
     --color-primary: #282828;
     --color-primary-light: #3d3d3d;
+    --color-secondary: var(--color-blue-500);
     --color-error: var(--color-rose-700);
 
     --font-body: 'Roboto Mono', sans-serif;
@@ -25,4 +26,22 @@ body {
 
 .input-error {
     @apply border-error text-error;
+}
+
+.hover-vibration-off {
+    position: relative;
+
+    &:hover::after {
+        content: ' ';
+        display: block;
+        position: absolute;
+        bottom: -20%;
+        left: 0;
+        right: 0;
+        height: 20%;
+    }
+}
+
+.icon {
+    @apply mx-0 align-middle;
 }

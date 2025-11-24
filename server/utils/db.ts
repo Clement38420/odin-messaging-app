@@ -7,14 +7,3 @@ export const db = drizzle({
   casing: 'snake_case',
   schema,
 })
-
-export async function getUserProfileById(userId: number) {
-  return (await db.query.users.findFirst({
-    where: eq(users.id, userId),
-    columns: {
-      id: true,
-      username: true,
-      email: true,
-    },
-  })) as UserProfile | null
-}

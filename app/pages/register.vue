@@ -1,19 +1,19 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ['auth'],
+  layout: false,
 })
 
 const { fields, generalError, isSubmitPending, submit } = useForm(
   userRegisterSchema,
   'api/register',
+  '/login',
 )
 </script>
 
 <template>
-  <main class="flex h-lvh w-full flex-col items-center justify-center">
-    <div
-      class="bg-bg-base border-bg-dark flex flex-col rounded-2xl px-16 py-10 shadow-lg"
-    >
+  <main class="flex h-dvh w-full flex-col items-center justify-center">
+    <BaseCard class="px-16 py-10">
       <img src="~/assets/images/logo.svg" alt="Dash Logo" class="mb-10 h-20" />
       <form class="relative flex max-w-md flex-col" @submit.prevent="submit">
         <BaseTextInput
@@ -45,7 +45,7 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
       <NuxtLink class="mt-2 self-center text-sm underline" to="/login"
         >Login</NuxtLink
       >
-    </div>
+    </BaseCard>
   </main>
 </template>
 

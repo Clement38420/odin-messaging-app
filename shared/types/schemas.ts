@@ -77,3 +77,8 @@ export const userRegisterSchema = userBaseSchema
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   })
+
+export const userProfileSchema = userBaseSchema.pick({
+  email: true,
+  username: true,
+})

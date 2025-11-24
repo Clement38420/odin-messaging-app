@@ -1,24 +1,35 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ['auth'],
-  layout: false,
 })
 
 const { fields, generalError, isSubmitPending, submit } = useForm(
-  userLoginSchema,
-  'api/login',
-  '/',
+  userProfileSchema,
+  'api/users/me',
 )
+
+const { data } = await useFetch('/api/users/me')
+const userData = unref(data)
+
+if (!userData) alert('An error occurred')
+else {
+  Object.keys(userData).forEach((key) => {
+    fields[key]!.value = userData[key]
+  })
+}
 </script>
 
 <template>
-  <main class="flex h-dvh w-full flex-col items-center justify-center">
-    <BaseCard class="px-16 py-10">
-      <img
-        src="~/assets/images/logo.svg"
-        alt="Dash Logo"
-        class="mb-10 h-20 self-center"
-      />
+  <main class="flex w-full flex-col items-center justify-center">
+    <BaseCard class="w-100 px-16 py-10 align-middle">
+      <div class="mb-8 flex w-full flex-col items-center">
+        <Icon
+          class="text-text-muted mb-1 aspect-square h-20 w-auto"
+          name="material-symbols:account-circle-outline"
+          mode="svg"
+        ></Icon>
+        <h2 class="text-2xl">{{ fields?.username?.value ?? 'You' }}</h2>
+      </div>
       <form class="relative flex flex-col" @submit.prevent="submit">
         <BaseTextInput
           v-for="field in fields"
@@ -42,12 +53,9 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
             class="align-middle"
             name="line-md:loading-loop"
           ></Icon>
-          Login
+          Save changes
         </BaseButton>
       </form>
-      <NuxtLink class="mt-2 self-center text-sm underline" to="/register"
-        >Register</NuxtLink
-      >
     </BaseCard>
   </main>
 </template>

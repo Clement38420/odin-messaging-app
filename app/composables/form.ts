@@ -4,6 +4,7 @@ import type { FormErrorData } from '#shared/types/errors'
 export function useForm<T extends z.ZodObject>(
   fieldsSchema: T,
   apiEndpoint: string,
+  navigateToIfSucces?: string,
 ) {
   const fields = reactive(
     Object.fromEntries(
@@ -47,12 +48,12 @@ export function useForm<T extends z.ZodObject>(
 
       fieldsSchema.parse(fieldsValues)
 
-      await $fetch(apiEndpoint, {
+      await fetcher(apiEndpoint, {
         method: 'POST',
         body: fieldsValues,
       })
 
-      await navigateTo('/')
+      if (navigateToIfSucces) await navigateTo(navigateToIfSucces)
     } catch (error) {
       if (error instanceof z.ZodError) {
         error.issues.forEach((issue) => {
