@@ -22,7 +22,7 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
           v-model="field.value"
           :name="field.name"
           :title="field.title"
-          :password="field.password"
+          :type="field.type"
           class=""
           :error="field.error"
         />

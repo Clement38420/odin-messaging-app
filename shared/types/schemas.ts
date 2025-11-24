@@ -20,7 +20,7 @@ z.config({
         else return `This field must be a ${iss.expected}`
 
       case 'too_big':
-        switch (iss.type) {
+        switch (typeof iss.input) {
           case 'string':
             return `This field must be lower than ${iss.maximum} characters`
 
@@ -46,7 +46,15 @@ const userBaseSchema = z.object({
   id: z.int(),
   email: z.email().meta({ description: 'Email address' }),
   username: z.string().max(255).min(1).meta({ description: 'Username' }),
-  password: z.string().min(1).meta({ description: 'Password', password: true }),
+  password: z
+    .string()
+    .min(1)
+    .meta({ description: 'Password', type: 'password' }),
+  bio: z
+    .string()
+    .max(500)
+    .optional()
+    .meta({ description: 'Bio', type: 'textarea' }),
 })
 
 export const userLoginSchema = userBaseSchema.pick({
@@ -58,6 +66,7 @@ export const userRegisterSchema = userBaseSchema
   .pick({
     email: true,
     username: true,
+    bio: true,
     password: true,
   })
   .extend({
@@ -81,4 +90,5 @@ export const userRegisterSchema = userBaseSchema
 export const userProfileSchema = userBaseSchema.pick({
   email: true,
   username: true,
+  bio: true,
 })

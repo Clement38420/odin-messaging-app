@@ -16,7 +16,7 @@ export function useForm<T extends z.ZodObject>(
             name: field,
             title: schema.meta().description,
             value: '',
-            password: schema.meta().password,
+            type: schema.meta().type,
             error: '',
           } as FormField,
         ]

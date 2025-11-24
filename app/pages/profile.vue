@@ -38,7 +38,7 @@ else {
           :name="field.name"
           :title="field.title"
           :error="field.error"
-          :password="field.password"
+          :type="field.type"
         />
         <p v-show="generalError" class="text-error max-w- my-4 text-sm">
           <Icon

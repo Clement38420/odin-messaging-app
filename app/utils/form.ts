@@ -3,5 +3,5 @@ export type FormField = {
   value: string
   title: string
   error: string
-  password?: boolean
+  type?: string
 }
