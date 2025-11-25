@@ -76,11 +76,11 @@ export const userRegisterSchema = userBaseSchema
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
         'Password must be 8 characters long, contains one lower and one uppercase letter, and one special characters.',
       )
-      .meta({ description: 'Password', password: true }),
+      .meta({ description: 'Password', type: 'password' }),
     confirmPassword: z
       .string()
       .min(1)
-      .meta({ description: 'Confirm Password', password: true }),
+      .meta({ description: 'Confirm Password', type: 'password' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
