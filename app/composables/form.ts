@@ -5,6 +5,7 @@ export function useForm<T extends z.ZodObject>(
   fieldsSchema: T,
   apiEndpoint: string,
   navigateToIfSucces?: string,
+  onSuccess?: (data: unknown) => Promise<void> | void,
 ) {
   const fields = reactive(
     Object.fromEntries(
@@ -48,10 +49,12 @@ export function useForm<T extends z.ZodObject>(
 
       fieldsSchema.parse(fieldsValues)
 
-      await fetcher(apiEndpoint, {
+      const response = await useNuxtApp().$api(apiEndpoint, {
         method: 'POST',
         body: fieldsValues,
       })
+
+      if (onSuccess) await onSuccess(response)
 
       if (navigateToIfSucces) await navigateTo(navigateToIfSucces)
     } catch (error) {

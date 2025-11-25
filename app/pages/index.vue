@@ -3,11 +3,15 @@ definePageMeta({
   middleware: ['auth'],
 })
 
-const { data: conversations } = await useFetch('/api/conversations')
+const { $api } = useNuxtApp()
+
+const { data: conversations } = await useAsyncData(() =>
+  $api('/api/conversations'),
+)
 const selectedConversationId = ref<number | null>(null)
 
-const { data: messages, execute: refreshMessages } = await useFetch(
-  () => `/api/conversations/${selectedConversationId.value}/messages`,
+const { data: messages, execute: refreshMessages } = await useAsyncData(
+  () => $api(`/api/conversations/${selectedConversationId.value}/messages`),
   {
     immediate: false,
   },

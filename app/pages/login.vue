@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['auth'],
+  middleware: ['guest'],
   layout: false,
 })
 
@@ -8,6 +8,9 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
   userLoginSchema,
   'api/login',
   '/',
+  async () => {
+    await useAuthStore().fetchUser()
+  },
 )
 </script>
 
