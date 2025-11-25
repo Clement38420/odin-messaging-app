@@ -19,7 +19,6 @@ const dbErrorMap: Record<string, dbErrorInfos> = {
 export function errorHandler(error: unknown) {
   if (error instanceof H3Error) throw error
   if (error instanceof DrizzleQueryError) dbErrorHandler(error)
-  console.error(error)
   throw createError({
     statusCode: 500,
     statusMessage: 'Internal server error',
@@ -36,20 +35,22 @@ export function errorHandler(error: unknown) {
 }
 
 export function dbErrorHandler(error: DrizzleQueryError) {
-  const errorInfos = dbErrorMap[error.cause!.code]
-  const field = error.cause!.constraint.split('_')[1]
+  if (error.cause?.code || error.cause?.code) {
+    const errorInfos = dbErrorMap[error.cause!.code]
+    const field = error.cause!.constraint.split('_')[1]
 
-  throw createError({
-    statusCode: errorInfos.statusCode,
-    statusMessage: errorInfos.statusMessage,
-    data: {
-      errors: [
-        {
-          field: field ?? 'general',
-          message: errorInfos.fieldMessage,
-        },
-      ],
-      detail: error,
-    },
-  })
+    throw createError({
+      statusCode: errorInfos.statusCode,
+      statusMessage: errorInfos.statusMessage,
+      data: {
+        errors: [
+          {
+            field: field ?? 'general',
+            message: errorInfos.fieldMessage,
+          },
+        ],
+        detail: error,
+      },
+    })
+  }
 }
