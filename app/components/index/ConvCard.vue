@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  title: string
+  title: string | null
   lastMessage: string
   isRead?: boolean
 }>()
@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <BaseCard class="relative items-start gap-1">
-    <p class="text-lg">{{ title }}</p>
+    <p class="text-lg">{{ title ?? 'Not named' }}</p>
     <p class="text-text-muted ml-1">{{ lastMessage }}</p>
     <div
       v-show="!isRead"

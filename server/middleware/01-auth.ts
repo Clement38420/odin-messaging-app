@@ -1,7 +1,10 @@
 import jwt from 'jsonwebtoken'
 
 export default defineEventHandler((event) => {
-  if (getRequestURL(event).pathname.startsWith('/api/users')) {
+  if (
+    getRequestURL(event).pathname.startsWith('/api/users') ||
+    getRequestURL(event).pathname.startsWith('/api/conversations')
+  ) {
     const authToken = getCookie(event, 'auth_token')
 
     if (!authToken) {

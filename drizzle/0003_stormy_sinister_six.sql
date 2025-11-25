@@ -1,0 +1,1 @@
+ALTER TABLE "conversations" RENAME COLUMN "isGroup" TO "is_group";
