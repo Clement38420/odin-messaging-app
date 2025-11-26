@@ -7,7 +7,11 @@ definePageMeta({
 const { fields, generalError, isSubmitPending, submit } = useForm(
   userRegisterSchema,
   'api/register',
-  '/login',
+  {
+    onSuccess: async () => {
+      await navigateTo('/login')
+    },
+  },
 )
 </script>
 

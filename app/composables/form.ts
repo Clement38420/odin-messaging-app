@@ -4,8 +4,10 @@ import type { FormErrorData } from '#shared/types/errors'
 export function useForm<T extends z.ZodObject>(
   fieldsSchema: T,
   apiEndpoint: string,
-  navigateToIfSucces?: string,
-  onSuccess?: (data: unknown) => Promise<void> | void,
+  options?: {
+    method?: 'POST' | 'PATCH' | 'PUT'
+    onSuccess?: (data: unknown) => Promise<void> | void
+  },
 ) {
   const fields = reactive(
     Object.fromEntries(
@@ -50,13 +52,11 @@ export function useForm<T extends z.ZodObject>(
       fieldsSchema.parse(fieldsValues)
 
       const response = await useNuxtApp().$api(apiEndpoint, {
-        method: 'POST',
+        method: options?.method ?? 'POST',
         body: fieldsValues,
       })
 
-      if (onSuccess) await onSuccess(response)
-
-      if (navigateToIfSucces) await navigateTo(navigateToIfSucces)
+      if (options?.onSuccess) await options.onSuccess(response)
     } catch (error) {
       if (error instanceof z.ZodError) {
         error.issues.forEach((issue) => {

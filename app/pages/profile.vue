@@ -3,17 +3,22 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { $api } = useNuxtApp()
+
 const { fields, generalError, isSubmitPending, submit } = useForm(
   userProfileSchema,
   'api/users/me',
+  {
+    method: 'PATCH',
+  },
 )
 
-const { data } = await useFetch('/api/users/me')
+const { data } = await useAsyncData(() => $api('/api/users/me'))
 const userData = unref(data)
 
-if (!userData) alert('An error occurred')
+if (!userData) alert('An error occurred please reload the page.')
 else {
-  Object.keys(userData).forEach((key) => {
+  Object.keys(fields).forEach((key) => {
     fields[key]!.value = userData[key]
   })
 }

@@ -35,7 +35,7 @@ export function errorHandler(error: unknown) {
 }
 
 export function dbErrorHandler(error: DrizzleQueryError) {
-  if (error.cause?.code || error.cause?.code) {
+  if (error.cause?.code && error.cause?.constraint) {
     const errorInfos = dbErrorMap[error.cause!.code]
     const field = error.cause!.constraint.split('_')[1]
 
