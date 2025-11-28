@@ -14,6 +14,10 @@ const selectedConversationId = ref<number | null>(null)
 
 function updateSelectedConversation(id: number) {
   selectedConversationId.value = id
+  const conversation = conversations.value?.find((conv) => conv.id === id)
+  if (conversation) {
+    conversation.lastSeenAt = new Date().toISOString()
+  }
 }
 
 function updateLastMessage(
@@ -28,6 +32,15 @@ function updateLastMessage(
     if (conversations.value) triggerRef(conversations)
   }
 }
+
+function isConversationRead(conversation: ConversationSnippet) {
+  if (!conversation.lastMessage) return true
+  if (!conversation.lastSeenAt) return false
+  return (
+    new Date(conversation.lastSeenAt).getTime() >=
+    new Date(conversation.lastMessage?.createdAt).getTime()
+  )
+}
 </script>
 
 <template>
@@ -40,6 +53,10 @@ function updateLastMessage(
         :key="conversation.id"
         :title="conversation.name"
         :last-message="conversation.lastMessage?.content"
+        :is-read="
+          isConversationRead(conversation) ||
+          conversation.id === selectedConversationId
+        "
         @click="updateSelectedConversation(conversation.id)"
       />
     </aside>

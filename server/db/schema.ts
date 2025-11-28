@@ -41,6 +41,7 @@ export const usersToConversations = pgTable(
     conversationId: integer('conversation_id')
       .notNull()
       .references(() => conversations.id),
+    lastSeenAt: timestamp('last_seen_at'),
   },
   (t) => [primaryKey({ columns: [t.userId, t.conversationId] })],
 )

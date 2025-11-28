@@ -7,6 +7,13 @@ export default defineEventHandler(async (event) => {
       where: eq(messages.conversationId, conversationId),
     })
 
+    await db
+      .update(usersToConversations)
+      .set({
+        lastSeenAt: new Date(),
+      })
+      .where(eq(usersToConversations.userId, event.context.userId))
+
     return convMessages
   } catch (error) {
     errorHandler(error)

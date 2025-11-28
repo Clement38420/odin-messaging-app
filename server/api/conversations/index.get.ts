@@ -40,6 +40,7 @@ export default defineEventHandler(async (event) => {
         ...rest,
         name: finalName,
         lastMessage: m[0] || null,
+        lastSeenAt: uc.lastSeenAt || null,
       }
     })
   } catch (error) {

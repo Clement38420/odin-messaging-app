@@ -36,6 +36,13 @@
       "when": 1764023207566,
       "tag": "0004_colossal_devos",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1764335577898,
+      "tag": "0005_majestic_queen_noir",
+      "breakpoints": true
     }
   ]
 }

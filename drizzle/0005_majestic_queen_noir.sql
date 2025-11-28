@@ -1,0 +1,1 @@
+ALTER TABLE "users_to_conversations" ADD COLUMN "last_seen_at" timestamp;

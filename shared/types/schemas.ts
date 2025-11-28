@@ -108,3 +108,23 @@ export const messageCreateSchema = messageBaseSchema.pick({
   content: true,
 })
 //#endregion
+
+//#region Conversation Schemas
+export const conversationBaseSchema = z.object({
+  id: z.int(),
+  name: z
+    .string()
+    .max(100)
+    .nullable()
+    .default(null)
+    .meta({ description: 'Conversation Name' }),
+  isGroup: z.boolean().meta({ description: 'Is Group Conversation' }),
+})
+export type Conversation = z.infer<typeof conversationBaseSchema>
+
+export const conversationSnippetSchema = conversationBaseSchema.extend({
+  lastMessage: messageBaseSchema.nullable().optional(),
+  lastSeenAt: z.coerce.string().nullable(),
+})
+export type ConversationSnippet = z.infer<typeof conversationSnippetSchema>
+//#endregion
