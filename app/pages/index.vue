@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { z } from 'zod'
+
 definePageMeta({
   middleware: ['auth'],
 })
@@ -10,22 +12,29 @@ const { data: conversations } = await useAsyncData(() =>
 )
 const selectedConversationId = ref<number | null>(null)
 
-const { data: messages, execute: refreshMessages } = await useAsyncData(
-  () => $api(`/api/conversations/${selectedConversationId.value}/messages`),
-  {
-    immediate: false,
-  },
-)
-
 function updateSelectedConversation(id: number) {
   selectedConversationId.value = id
-  if (selectedConversationId.value) refreshMessages()
+}
+
+function updateLastMessage(
+  conversationId: number,
+  lastMessage: z.infer<typeof messageBaseSchema>,
+) {
+  const conversation = conversations.value?.find(
+    (conv) => conv.id === conversationId,
+  )
+  if (conversation) {
+    conversation.lastMessage = lastMessage
+    if (conversations.value) triggerRef(conversations)
+  }
 }
 </script>
 
 <template>
-  <div class="grid grid-cols-8">
-    <aside class="col-span-2 flex flex-col gap-4 p-8 text-center">
+  <div class="absolute inset-0 grid grid-cols-8">
+    <aside
+      class="col-span-2 flex flex-col gap-4 overflow-y-auto border-r border-gray-200 p-8"
+    >
       <IndexConvCard
         v-for="conversation in conversations"
         :key="conversation.id"
@@ -34,13 +43,12 @@ function updateSelectedConversation(id: number) {
         @click="updateSelectedConversation(conversation.id)"
       />
     </aside>
-    <main class="col-span-6 flex flex-col justify-end p-8 text-center">
-      <IndexMessage
-        v-for="message in messages"
-        :key="message.id"
-        :message="message.content"
-      />
-    </main>
+
+    <IndexMessages
+      v-if="selectedConversationId !== null"
+      :conversation-id="selectedConversationId"
+      @last-message-updated="updateLastMessage(selectedConversationId, $event)"
+    />
   </div>
 </template>
 
