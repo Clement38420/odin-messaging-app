@@ -1,7 +1,15 @@
+import type { z } from 'zod'
+
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref(null)
+  const user = ref<(z.infer<typeof userProfileSchema> & { id: number }) | null>(
+    null,
+  )
 
   const isAuthenticated = computed(() => !!user.value)
+
+  function getUserId() {
+    return user.value?.id
+  }
 
   async function fetchUser() {
     try {
@@ -20,5 +28,6 @@ export const useAuthStore = defineStore('auth', () => {
     isAuthenticated,
     fetchUser,
     clearUser,
+    getUserId,
   }
 })
