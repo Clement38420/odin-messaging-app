@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { z } from 'zod'
-
 definePageMeta({
   middleware: ['auth'],
 })
@@ -20,10 +18,7 @@ function updateSelectedConversation(id: number) {
   }
 }
 
-function updateLastMessage(
-  conversationId: number,
-  lastMessage: z.infer<typeof messageBaseSchema>,
-) {
+function updateLastMessage(conversationId: number, lastMessage: Message) {
   const conversation = conversations.value?.find(
     (conv) => conv.id === conversationId,
   )

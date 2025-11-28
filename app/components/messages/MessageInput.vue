@@ -2,7 +2,7 @@
 import { z } from 'zod'
 
 const emit = defineEmits<{
-  (e: 'message-sent', message: z.infer<typeof messageBaseSchema>): void
+  (e: 'message-sent', message: Message): void
 }>()
 
 const props = defineProps<{

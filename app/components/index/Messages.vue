@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { z } from 'zod'
-
 const emit = defineEmits<{
-  (e: 'last-message-updated', message: z.infer<typeof messageBaseSchema>): void
+  (e: 'last-message-updated', message: Message): void
 }>()
 
 const props = defineProps<{
@@ -31,7 +29,7 @@ function scrollToBottom() {
     messagesContainer.value.scrollTop = messagesContainer.value?.scrollHeight
 }
 
-async function addMessage(message: z.infer<typeof messageBaseSchema>) {
+async function addMessage(message: Message) {
   messages.value = [...(messages.value ?? []), message] as typeof messages.value
   emit('last-message-updated', message)
   await nextTick()

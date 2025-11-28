@@ -62,6 +62,7 @@ export const userLoginSchema = userBaseSchema.pick({
   username: true,
   password: true,
 })
+export type UserLogin = z.infer<typeof userLoginSchema>
 
 export const userRegisterSchema = userBaseSchema
   .pick({
@@ -87,12 +88,14 @@ export const userRegisterSchema = userBaseSchema
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   })
+export type UserRegister = z.infer<typeof userRegisterSchema>
 
 export const userProfileSchema = userBaseSchema.pick({
   email: true,
   username: true,
   bio: true,
 })
+export type UserProfile = z.infer<typeof userProfileSchema>
 //#endregion
 
 //#region Message Schemas
@@ -103,10 +106,12 @@ export const messageBaseSchema = z.object({
   content: z.string().trim().min(1).max(2000).meta({ description: 'Message' }),
   createdAt: z.coerce.string(),
 })
+export type Message = z.infer<typeof messageBaseSchema>
 
 export const messageCreateSchema = messageBaseSchema.pick({
   content: true,
 })
+export type NewMessage = z.infer<typeof messageCreateSchema>
 //#endregion
 
 //#region Conversation Schemas

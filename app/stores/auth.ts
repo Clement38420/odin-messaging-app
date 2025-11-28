@@ -1,9 +1,5 @@
-import type { z } from 'zod'
-
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<(z.infer<typeof userProfileSchema> & { id: number }) | null>(
-    null,
-  )
+  const user = ref<(UserProfile & { id: number }) | null>(null)
 
   const isAuthenticated = computed(() => !!user.value)
 

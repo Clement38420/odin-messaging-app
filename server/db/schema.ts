@@ -24,7 +24,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const conversations = pgTable('conversations', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 50 }),
-  isGroup: boolean('is_group').default(false),
+  isGroup: boolean('is_group').notNull().default(false),
 })
 
 export const conversationsRelations = relations(conversations, ({ many }) => ({
