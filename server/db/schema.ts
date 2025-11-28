@@ -18,6 +18,7 @@ export const users = pgTable('users', {
 
 export const usersRelations = relations(users, ({ many }) => ({
   usersToConversations: many(usersToConversations),
+  messages: many(messages),
 }))
 
 export const conversations = pgTable('conversations', {
@@ -28,6 +29,7 @@ export const conversations = pgTable('conversations', {
 
 export const conversationsRelations = relations(conversations, ({ many }) => ({
   usersToConversations: many(usersToConversations),
+  messages: many(messages),
 }))
 
 export const usersToConversations = pgTable(
