@@ -14,6 +14,10 @@ export default defineEventHandler(async (event) => {
                 },
               },
             },
+            messages: {
+              orderBy: [desc(messages.createdAt)],
+              limit: 1,
+            },
           },
         },
       },
@@ -22,16 +26,24 @@ export default defineEventHandler(async (event) => {
     return userConversations.map((uc) => {
       const conv = uc.conversation
 
-      if (!conv.name && !conv.isGroup) {
+      let finalName = conv.name
+      if (!finalName && !conv.isGroup) {
         const otherUser = conv.usersToConversations.find(
           (utc) => utc.userId !== event.context.userId,
         )
-        conv.name = otherUser?.user.username || null
+        finalName = otherUser?.user.username || null
       }
 
-      return conv
+      const { usersToConversations: _, messages: m, ...rest } = conv
+
+      return {
+        ...rest,
+        name: finalName,
+        lastMessage: m[0] || null,
+      }
     })
   } catch (error) {
+    console.log(error)
     errorHandler(error)
   }
 })

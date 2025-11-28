@@ -42,6 +42,7 @@ z.config({
   },
 })
 
+//#region User Schemas
 const userBaseSchema = z.object({
   id: z.int(),
   email: z.email().meta({ description: 'Email address' }),
@@ -92,3 +93,18 @@ export const userProfileSchema = userBaseSchema.pick({
   username: true,
   bio: true,
 })
+//#endregion
+
+//#region Message Schemas
+export const messageBaseSchema = z.object({
+  id: z.int(),
+  conversationId: z.int(),
+  senderId: z.int(),
+  content: z.string().trim().min(1).max(2000).meta({ description: 'Message' }),
+  createdAt: z.coerce.string(),
+})
+
+export const messageCreateSchema = messageBaseSchema.pick({
+  content: true,
+})
+//#endregion

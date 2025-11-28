@@ -30,7 +30,7 @@ function updateSelectedConversation(id: number) {
         v-for="conversation in conversations"
         :key="conversation.id"
         :title="conversation.name"
-        last-message="T où ?"
+        :last-message="conversation.lastMessage?.content"
         @click="updateSelectedConversation(conversation.id)"
       />
     </aside>
