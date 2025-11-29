@@ -128,7 +128,7 @@ export const conversationBaseSchema = z.object({
 export type Conversation = z.infer<typeof conversationBaseSchema>
 
 export const conversationSnippetSchema = conversationBaseSchema.extend({
-  lastMessage: messageBaseSchema.nullable().optional(),
+  lastMessage: messageBaseSchema.nullable().default(null),
   lastSeenAt: z.coerce.string().nullable(),
 })
 export type ConversationSnippet = z.infer<typeof conversationSnippetSchema>
