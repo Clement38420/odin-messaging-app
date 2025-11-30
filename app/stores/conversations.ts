@@ -25,7 +25,7 @@ export const useConversationsStore = defineStore('conversations', () => {
   }
 
   function isRead(conversation: ConversationSnippet) {
-    if (conversation.id === Number(useRoute().params.id)) return true
+    if (conversation.id === getCurrentConversationId()) return true
     if (!conversation.lastMessage) return true
     if (!conversation.lastSeenAt) return false
     return (
@@ -46,11 +46,16 @@ export const useConversationsStore = defineStore('conversations', () => {
     conversations.value = []
   }
 
+  function getCurrentConversationId() {
+    return useRoute().params.id ? Number(useRoute().params.id) : null
+  }
+
   return {
     conversations,
     fetchConversations,
     updateLastMessage,
     clearConversations,
     isRead,
+    getCurrentConversationId,
   }
 })

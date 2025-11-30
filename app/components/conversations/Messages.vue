@@ -47,8 +47,7 @@ async function addMessage(message: Message) {
         <MessagesMessageCard
           v-for="message in messages ?? []"
           :key="message.id"
-          :message="message.content"
-          :is-own="message.senderId === useAuthStore().getUserId()"
+          :message="message"
         />
       </div>
     </div>

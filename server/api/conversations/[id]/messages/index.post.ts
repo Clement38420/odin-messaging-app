@@ -16,6 +16,13 @@ export default defineEventHandler(async (event) => {
       })
       .returning()
 
+    await db
+      .update(usersToConversations)
+      .set({
+        lastSeenAt: new Date(),
+      })
+      .where(eq(usersToConversations.userId, event.context.userId))
+
     return message[0]
   } catch (error) {
     errorHandler(error)

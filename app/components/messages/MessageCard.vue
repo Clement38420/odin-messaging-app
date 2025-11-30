@@ -1,8 +1,11 @@
 <script setup lang="ts">
-defineProps<{
-  message: string
-  isOwn?: boolean
+const props = defineProps<{
+  message: Message
 }>()
+
+const isOwn = computed(
+  () => props.message.senderId === useAuthStore().getUserId(),
+)
 </script>
 
 <template>
@@ -14,7 +17,7 @@ defineProps<{
       class="z-10 rounded-2xl py-2 text-left shadow-none"
       :class="isOwn ? 'bg-primary text-bg-base' : 'bg-bg-base text-text-base'"
     >
-      {{ message }}
+      {{ message.content }}
     </BaseCard>
     <svg
       width="200"
