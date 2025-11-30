@@ -50,6 +50,13 @@
       "when": 1764511859832,
       "tag": "0006_daffy_ultimo",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1764511908802,
+      "tag": "0007_hard_sway",
+      "breakpoints": true
     }
   ]
 }

@@ -123,7 +123,10 @@ export const conversationBaseSchema = z.object({
     .nullable()
     .default(null)
     .meta({ description: 'Conversation Name' }),
-  isGroup: z.boolean().meta({ description: 'Is Group Conversation' }),
+  isGroup: z
+    .boolean()
+    .optional()
+    .meta({ description: 'Is Group Conversation' }),
 })
 export type Conversation = z.infer<typeof conversationBaseSchema>
 
@@ -132,4 +135,16 @@ export const conversationSnippetSchema = conversationBaseSchema.extend({
   lastSeenAt: z.coerce.string().nullable(),
 })
 export type ConversationSnippet = z.infer<typeof conversationSnippetSchema>
+
+export const conversationCreateSchema = conversationBaseSchema
+  .pick({
+    name: true,
+    isGroup: true,
+  })
+  .extend({
+    participantUsernames: z
+      .array(z.string())
+      .min(2, 'A conversation must contain two users at least'),
+  })
+export type ConversationUpdateSchema = z.infer<typeof conversationCreateSchema>
 //#endregion

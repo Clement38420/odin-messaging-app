@@ -1,0 +1,2 @@
+ALTER TABLE "conversations" ADD COLUMN "users_fingerprint" text NOT NULL;--> statement-breakpoint
+ALTER TABLE "conversations" ADD CONSTRAINT "conversations_users_fingerprint_unique" UNIQUE("users_fingerprint");

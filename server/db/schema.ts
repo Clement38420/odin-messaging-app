@@ -5,6 +5,7 @@ import {
   boolean,
   primaryKey,
   timestamp,
+  text,
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
@@ -25,6 +26,7 @@ export const conversations = pgTable('conversations', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 50 }),
   isGroup: boolean('is_group').notNull().default(false),
+  usersFingerprint: text('users_fingerprint').notNull().unique(),
 })
 
 export const conversationsRelations = relations(conversations, ({ many }) => ({
