@@ -37,10 +37,10 @@ export const usersToConversations = pgTable(
   {
     userId: integer('user_id')
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: 'cascade' }),
     conversationId: integer('conversation_id')
       .notNull()
-      .references(() => conversations.id),
+      .references(() => conversations.id, { onDelete: 'cascade' }),
     lastSeenAt: timestamp('last_seen_at'),
   },
   (t) => [primaryKey({ columns: [t.userId, t.conversationId] })],
@@ -64,7 +64,7 @@ export const messages = pgTable('messages', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   conversationId: integer('conversation_id')
     .notNull()
-    .references(() => conversations.id),
+    .references(() => conversations.id, { onDelete: 'cascade' }),
   senderId: integer('sender_id')
     .notNull()
     .references(() => users.id),
