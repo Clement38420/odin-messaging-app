@@ -36,20 +36,41 @@ export function errorHandler(error: unknown) {
 
 export function dbErrorHandler(error: DrizzleQueryError) {
   if (error.cause?.code && error.cause?.constraint) {
+    if (
+      error.cause.code === '23505' &&
+      error.cause.constraint.includes('fingerprint')
+    ) {
+      throw createError({
+        statusCode: 409,
+        statusMessage: 'This conversation already exists',
+      })
+    }
+
     const errorInfos = dbErrorMap[error.cause!.code]
-    const field = error.cause!.constraint.split('_')[1]
+
+    if (errorInfos) {
+      const field = error.cause!.constraint.split('_')[1]
+
+      throw createError({
+        statusCode: errorInfos.statusCode,
+        statusMessage: errorInfos.statusMessage,
+        data: {
+          errors: [
+            {
+              field: field ?? 'general',
+              message: errorInfos.fieldMessage,
+            },
+          ],
+          detail: error,
+        },
+      })
+    }
 
     throw createError({
-      statusCode: errorInfos.statusCode,
-      statusMessage: errorInfos.statusMessage,
+      statusCode: 500,
+      statusMessage: 'Erreur',
       data: {
-        errors: [
-          {
-            field: field ?? 'general',
-            message: errorInfos.fieldMessage,
-          },
-        ],
-        detail: error,
+        detail: error.cause,
       },
     })
   }
