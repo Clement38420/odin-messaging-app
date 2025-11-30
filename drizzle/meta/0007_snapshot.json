@@ -38,8 +38,6 @@
           "notNull": true,
           "default": false
         },
-        "uids_fingerprint": {
-          "name": "uids_fingerprint",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -49,11 +47,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "conversations_uids_fingerprint_unique": {
-          "name": "conversations_uids_fingerprint_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "uids_fingerprint"
           ]
         }
       },
