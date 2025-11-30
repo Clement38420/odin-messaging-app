@@ -4,14 +4,15 @@ defineProps<{
 }>()
 
 const colorVariants: Record<Colors, string> = {
-  primary: 'bg-primary text-bg-base hover:bg-primary-light',
+  primary:
+    'bg-primary text-bg-base hover:bg-primary-light hover:!bg-primary-light active:!bg-primary shadow-primary/30 active:!shadow-none',
 }
 </script>
 
 <template>
   <button
     :class="[colorVariants[color || 'primary']]"
-    class="bg-primary-muted text-bg-base hover:bg-primary shadow-primary/40 rounded-md px-4 py-2 transition hover:-translate-y-0.5 hover:shadow-lg active:translate-0 active:shadow-none"
+    class="hover-effect rounded-md px-4 py-2 active:!translate-0 active:shadow-none"
   >
     <slot></slot>
   </button>

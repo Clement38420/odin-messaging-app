@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <NuxtLink :to="`/conversations/${conversation.id}`" class="rounded-2xl">
     <BaseCard
-      class="hover:bg-bg-light hover-vibration-off relative w-full cursor-pointer items-start gap-1 pr-10 !shadow-md transition hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl"
+      class="hover-effect relative w-full cursor-pointer items-start gap-1 pr-10 !shadow-md"
       :class="
         useConversationsStore().getCurrentConversationId() === conversation.id
           ? 'bg-bg-light scale-105 shadow-xl'

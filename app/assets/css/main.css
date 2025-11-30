@@ -28,8 +28,12 @@ body {
     @apply border-error text-error;
 }
 
-.hover-vibration-off {
-    position: relative;
+.icon {
+    @apply mx-0 align-middle;
+}
+
+.hover-effect {
+    @apply relative hover:bg-bg-light transition hover:-translate-y-[5%] hover:scale-105 hover:shadow-xl;
 
     &:hover::after {
         content: ' ';
@@ -40,8 +44,4 @@ body {
         right: 0;
         height: 20%;
     }
-}
-
-.icon {
-    @apply mx-0 align-middle;
 }

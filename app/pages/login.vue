@@ -41,7 +41,7 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
           ></Icon>
           {{ generalError }}
         </p>
-        <BaseButton color="primary" class="hover-vibration-off">
+        <BaseButton color="primary">
           <Icon
             v-show="isSubmitPending"
             class="align-middle"

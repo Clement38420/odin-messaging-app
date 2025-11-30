@@ -24,7 +24,7 @@ async function logout() {
       <div class="flex h-[90%] gap-2">
         <NuxtLink
           to="/profile"
-          class="hover-vibration-off hover:text-text-base text-text-muted flex items-center rounded-full transition-transform hover:-translate-y-0.5"
+          class="hover:text-text-base text-text-muted hover-effect flex items-center rounded-full hover:!shadow-none"
         >
           <Icon
             class="aspect-square h-full w-auto drop-shadow-sm transition hover:drop-shadow-lg"
@@ -33,7 +33,7 @@ async function logout() {
           ></Icon>
         </NuxtLink>
         <button
-          class="hover-vibration-off hover:text-text-base text-text-muted flex cursor-pointer items-center rounded-full transition-transform hover:-translate-y-0.5"
+          class="hover:text-text-base text-text-muted hover-effect flex cursor-pointer items-center rounded-full hover:!shadow-none"
           @click="logout"
         >
           <Icon
