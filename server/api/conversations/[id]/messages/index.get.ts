@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
       .set({
         lastSeenAt: new Date(),
       })
-      .where(eq(usersToConversations.userId, event.context.userId))
+      .where(eq(usersToConversations.userId, event.context.user.id))
 
     return convMessages
   } catch (error) {

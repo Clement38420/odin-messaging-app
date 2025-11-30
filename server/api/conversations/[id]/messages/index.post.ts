@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       .insert(messages)
       .values({
         conversationId,
-        senderId: event.context.userId,
+        senderId: event.context.user.id,
         content,
       })
       .returning()
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
       .set({
         lastSeenAt: new Date(),
       })
-      .where(eq(usersToConversations.userId, event.context.userId))
+      .where(eq(usersToConversations.userId, event.context.user.id))
 
     return message[0]
   } catch (error) {

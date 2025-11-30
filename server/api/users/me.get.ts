@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   try {
     const user = await db.query.users.findFirst({
-      where: eq(users.id, event.context.userId),
+      where: eq(users.id, event.context.user.id),
       columns: {
         id: true,
         ...Object.fromEntries(

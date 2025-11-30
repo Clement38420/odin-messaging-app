@@ -29,7 +29,10 @@ export default defineEventHandler(async (event) => {
     )
     if (!isPasswordValid) throw invalidCredentialsError
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!)
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      process.env.JWT_SECRET!,
+    )
     setCookie(event, 'auth_token', token, {
       httpOnly: true,
       maxAge: 60 * 60,

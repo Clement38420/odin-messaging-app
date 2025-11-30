@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
             await db.query.usersToConversations.findFirst({
               where: and(
                 eq(usersToConversations.conversationId, conversationId),
-                ne(usersToConversations.userId, event.context.userId),
+                ne(usersToConversations.userId, event.context.user.id),
               ),
               columns: {},
               with: {

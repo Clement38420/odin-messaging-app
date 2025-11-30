@@ -15,9 +15,10 @@ export default defineEventHandler((event) => {
     }
 
     try {
-      event.context.userId = (
-        jwt.verify(authToken, process.env.JWT_SECRET!) as { userId: number }
-      ).userId
+      event.context.user = jwt.verify(authToken, process.env.JWT_SECRET!) as {
+        userId: number
+        username: string
+      }
     } catch {
       throw createError({
         statusCode: 401,

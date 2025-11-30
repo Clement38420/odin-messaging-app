@@ -4,7 +4,7 @@ export async function requireConversationAccess(
   event: H3Event,
   conversationId: number,
 ) {
-  const userId = event.context.userId
+  const userId = event.context.user.id
   if (!userId) {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }

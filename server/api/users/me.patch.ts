@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     await db
       .update(users)
       .set(userData)
-      .where(eq(users.id, event.context.userId))
+      .where(eq(users.id, event.context.user.id))
 
     return sendRedirect(event, '/login', 301)
   } catch (error) {

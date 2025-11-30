@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   try {
     const userConversations = await db.query.usersToConversations.findMany({
-      where: eq(usersToConversations.userId, event.context.userId),
+      where: eq(usersToConversations.userId, event.context.user.id),
       with: {
         conversation: {
           with: {
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
       let finalName = conv.name
       if (!finalName && !conv.isGroup) {
         const otherUser = conv.usersToConversations.find(
-          (utc) => utc.userId !== event.context.userId,
+          (utc) => utc.userId !== event.context.user.id,
         )
         finalName = otherUser?.user.username || null
       }
