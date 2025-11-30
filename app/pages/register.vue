@@ -17,7 +17,7 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
 
 <template>
   <main class="flex h-dvh w-full flex-col items-center justify-center">
-    <BaseCard class="px-16 py-10">
+    <BaseCard class="flex flex-col px-16 py-10">
       <img src="~/assets/images/logo.svg" alt="Dash Logo" class="mb-10 h-20" />
       <form class="relative flex max-w-md flex-col" @submit.prevent="submit">
         <BaseTextInput
