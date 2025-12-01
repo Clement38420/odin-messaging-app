@@ -34,6 +34,7 @@ const specialTypes = ['textarea']
       :class="{ 'input-error': field.error }"
     >
       {{ field.title }}
+      <span v-if="!field.required" class="-ml-1 text-xs"> (optional)</span>
     </label>
     <p v-show="field.error" class="text-error mt-1 max-w-full text-sm">
       <Icon

@@ -25,6 +25,9 @@ export function useForm<T extends z.ZodObject>(
               value: schema instanceof z.ZodArray ? [] : '',
               type: schema.meta().type,
               error: '',
+              required: !(
+                schema.safeParse(undefined).success || schema.isNullable()
+              ),
             } as FormField,
           ]
         }),

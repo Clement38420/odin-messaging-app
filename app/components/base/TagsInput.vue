@@ -79,6 +79,7 @@ const removeLastTag = () => {
         }"
       >
         {{ field.title }}
+        <span v-if="!field.required" class="-ml-1 text-xs"> (optional)</span>
       </label>
     </div>
 

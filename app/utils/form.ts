@@ -4,4 +4,5 @@ export type FormField = {
   title: string
   error: string
   type?: string
+  required: boolean
 }
