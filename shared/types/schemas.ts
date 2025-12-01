@@ -101,6 +101,12 @@ export const userProfileSchema = userBaseSchema.pick({
   bio: true,
 })
 export type UserProfile = z.infer<typeof userProfileSchema>
+
+export const userSenderSchema = userBaseSchema.pick({
+  id: true,
+  username: true,
+})
+export type MessageSender = z.infer<typeof userSenderSchema>
 //#endregion
 
 //#region Message Schemas
@@ -117,6 +123,10 @@ export const messageCreateSchema = messageBaseSchema.pick({
   content: true,
 })
 export type NewMessage = z.infer<typeof messageCreateSchema>
+
+export type ConversationMessage = Message & {
+  sender: MessageSender
+}
 //#endregion
 
 //#region Conversation Schemas

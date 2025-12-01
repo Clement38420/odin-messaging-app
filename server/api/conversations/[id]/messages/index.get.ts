@@ -5,6 +5,14 @@ export default defineEventHandler(async (event) => {
   try {
     const convMessages = await db.query.messages.findMany({
       where: eq(messages.conversationId, conversationId),
+      with: {
+        sender: {
+          columns: {
+            id: true,
+            username: true,
+          },
+        },
+      },
     })
 
     await db

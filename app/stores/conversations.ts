@@ -50,6 +50,11 @@ export const useConversationsStore = defineStore('conversations', () => {
     return useRoute().params.id ? Number(useRoute().params.id) : null
   }
 
+  function getCurrentConversation() {
+    const currentId = getCurrentConversationId()
+    return conversations.value.find((c) => c.id === currentId) || null
+  }
+
   return {
     conversations,
     fetchConversations,
@@ -57,5 +62,6 @@ export const useConversationsStore = defineStore('conversations', () => {
     clearConversations,
     isRead,
     getCurrentConversationId,
+    getCurrentConversation,
   }
 })

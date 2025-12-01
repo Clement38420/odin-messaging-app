@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { ConversationMessage } from '#shared/types/schemas'
+
 const props = defineProps<{
-  message: Message
+  message: ConversationMessage
 }>()
 
 const isOwn = computed(
@@ -13,6 +15,12 @@ const isOwn = computed(
     :class="isOwn ? 'self-end' : 'self-start'"
     class="relative max-w-120 drop-shadow-md"
   >
+    <div
+      v-if="!isOwn && useConversationsStore().getCurrentConversation()?.isGroup"
+      class="text-text-muted mb-1 ml-2 text-xs leading-none"
+    >
+      {{ message.sender.username }}
+    </div>
     <BaseCard
       class="z-10 rounded-2xl py-2 text-left shadow-none"
       :class="isOwn ? 'bg-primary text-bg-base' : 'bg-bg-base text-text-base'"
