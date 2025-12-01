@@ -7,6 +7,8 @@ export function useForm<T extends z.ZodObject>(
   options?: {
     method?: 'POST' | 'PATCH' | 'PUT'
     onSuccess?: (data: unknown) => Promise<void> | void
+    beforeSubmit?: () => Promise<void> | void
+    onError?: (error: unknown) => Promise<void> | void
   },
 ) {
   const fields = reactive(
