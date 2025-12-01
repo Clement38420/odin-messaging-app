@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
             {
               field: 'participantUsernames',
               message: 'Some participants do not exist.',
-              invalidUsernames: missingUsernames,
+              values: missingUsernames,
             },
           ],
         },

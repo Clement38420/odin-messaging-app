@@ -9,7 +9,7 @@ const specialTypes = ['textarea']
 </script>
 
 <template>
-  <div class="relative mb-8">
+  <div class="relative mb-8" :class="field.error ? 'animate-shakeX-soft' : ''">
     <input
       v-if="!specialTypes.includes(field.type ?? 'text')"
       :id="field.name"

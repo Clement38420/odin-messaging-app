@@ -34,11 +34,16 @@ const removeLastTag = () => {
 </script>
 
 <template>
-  <div id="container" class="relative mb-8" @click="focusInput">
+  <div
+    id="container"
+    class="relative mb-8"
+    :class="[field.error ? 'animate-shakeX-soft' : '']"
+    @click="focusInput"
+  >
     <div
       class="flex w-full cursor-text flex-wrap items-center gap-2 overflow-x-scroll rounded-md border-2 border-zinc-400 bg-transparent p-2 transition-colors"
       :class="[
-        field.error ? 'border-error' : 'focus-within:border-primary-light',
+        field.error ? 'input-error' : 'focus-within:border-primary-light',
       ]"
     >
       <span
