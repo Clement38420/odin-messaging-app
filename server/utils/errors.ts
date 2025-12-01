@@ -36,16 +36,6 @@ export function errorHandler(error: unknown) {
 
 export function dbErrorHandler(error: DrizzleQueryError) {
   if (error.cause?.code && error.cause?.constraint) {
-    if (
-      error.cause.code === '23505' &&
-      error.cause.constraint.includes('fingerprint')
-    ) {
-      throw createError({
-        statusCode: 409,
-        statusMessage: 'This conversation already exists',
-      })
-    }
-
     const errorInfos = dbErrorMap[error.cause!.code]
 
     if (errorInfos) {

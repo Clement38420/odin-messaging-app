@@ -38,6 +38,21 @@ export default defineEventHandler(async (event) => {
 
     const usersFingerprint = existingIds.sort((a, b) => a - b).join('_')
 
+    const existingConversation = await db.query.conversations.findFirst({
+      where: eq(conversations.usersFingerprint, usersFingerprint),
+      columns: { id: true },
+    })
+
+    if (existingConversation) {
+      throw createError({
+        statusCode: 409,
+        statusMessage: 'Conversation already exists',
+        data: {
+          existingConversationId: existingConversation.id,
+        },
+      })
+    }
+
     const conversation = await db.transaction(async (tx) => {
       const [conversation] = await tx
         .insert(conversations)
