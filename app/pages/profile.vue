@@ -40,12 +40,9 @@ else {
           v-for="field in fields"
           :key="field.name"
           v-model="field.value"
-          :name="field.name"
-          :title="field.title"
-          :error="field.error"
-          :type="field.type"
+          :field="field"
         />
-        <p v-show="generalError" class="text-error max-w- my-4 text-sm">
+        <p v-show="generalError" class="text-error -mt-2 mb-2 text-sm">
           <Icon
             class="align-middle"
             name="material-symbols:error-outline-rounded"

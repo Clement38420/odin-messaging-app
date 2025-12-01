@@ -24,13 +24,9 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
           v-for="field in fields"
           :key="field.name"
           v-model="field.value"
-          :name="field.name"
-          :title="field.title"
-          :type="field.type"
-          class=""
-          :error="field.error"
+          :field="field"
         />
-        <p v-show="generalError" class="text-error absolute bottom-12 text-sm">
+        <p v-show="generalError" class="text-error -mt-2 mb-2 text-sm">
           <Icon
             class="align-middle"
             name="material-symbols:error-outline-rounded"
