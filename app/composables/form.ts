@@ -13,19 +13,21 @@ export function useForm<T extends z.ZodObject>(
 ) {
   const fields = reactive(
     Object.fromEntries(
-      Object.keys(fieldsSchema.shape).map((field) => {
-        const schema = fieldsSchema.shape[field]
-        return [
-          field,
-          {
-            name: field,
-            title: schema.meta().description,
-            value: '',
-            type: schema.meta().type,
-            error: '',
-          } as FormField,
-        ]
-      }),
+      Object.keys(fieldsSchema.shape)
+        .filter((field) => !fieldsSchema.shape[field].meta().noRender)
+        .map((field) => {
+          const schema = fieldsSchema.shape[field]
+          return [
+            field,
+            {
+              name: field,
+              title: schema.meta().description,
+              value: schema instanceof z.ZodArray ? [] : '',
+              type: schema.meta().type,
+              error: '',
+            } as FormField,
+          ]
+        }),
     ),
   )
 
@@ -41,6 +43,8 @@ export function useForm<T extends z.ZodObject>(
   })
 
   async function submit() {
+    if (options?.beforeSubmit) await options.beforeSubmit()
+
     useClearFormErrors(fields)
     generalError.value = ''
 
@@ -60,6 +64,8 @@ export function useForm<T extends z.ZodObject>(
 
       if (options?.onSuccess) await options.onSuccess(response)
     } catch (error) {
+      if (options?.onError) await options.onError(error)
+
       if (error instanceof z.ZodError) {
         error.issues.forEach((issue) => {
           fields[issue.path[0] as string]!.error = issue.message

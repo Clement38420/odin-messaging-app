@@ -46,7 +46,12 @@ z.config({
 const userBaseSchema = z.object({
   id: z.int(),
   email: z.email().meta({ description: 'Email address' }),
-  username: z.string().max(255).min(1).meta({ description: 'Username' }),
+  username: z
+    .string()
+    .max(255)
+    .min(1)
+    .refine((s) => !s.includes(' '), "Can't contain spaces")
+    .meta({ description: 'Username' }),
   password: z
     .string()
     .min(1)
@@ -126,7 +131,7 @@ export const conversationBaseSchema = z.object({
   isGroup: z
     .boolean()
     .optional()
-    .meta({ description: 'Is Group Conversation' }),
+    .meta({ description: 'Is Group Conversation', noRender: true }),
 })
 export type Conversation = z.infer<typeof conversationBaseSchema>
 
@@ -144,7 +149,8 @@ export const conversationCreateSchema = conversationBaseSchema
   .extend({
     participantUsernames: z
       .array(z.string())
-      .min(2, 'A conversation must contain two users at least'),
+      .min(2, 'A conversation must contain two users at least')
+      .meta({ description: 'Participant Usernames', type: 'tags' }),
   })
 export type ConversationUpdateSchema = z.infer<typeof conversationCreateSchema>
 //#endregion
