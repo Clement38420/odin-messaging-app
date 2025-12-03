@@ -24,6 +24,6 @@ export default defineEventHandler(async (event) => {
 
     return convMessages
   } catch (error) {
-    errorHandler(error)
+    handleError(error)
   }
 })

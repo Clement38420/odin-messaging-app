@@ -41,6 +41,6 @@ export default defineEventHandler(async (event) => {
 
     return { name: conversation.name }
   } catch (error) {
-    errorHandler(error)
+    handleError(error)
   }
 })

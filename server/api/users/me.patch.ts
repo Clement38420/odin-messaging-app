@@ -11,6 +11,6 @@ export default defineEventHandler(async (event) => {
 
     return sendRedirect(event, '/login', 301)
   } catch (error) {
-    errorHandler(error)
+    handleError(error)
   }
 })

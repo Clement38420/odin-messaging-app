@@ -1,4 +1,16 @@
+import type { $ZodIssue } from 'zod/v4/core'
 import type { z } from 'zod'
+
+function getRuleFromIssue(issue: $ZodIssue): string {
+  if (issue.code === 'invalid_type' && issue.input === undefined) {
+    return 'required'
+  }
+
+  if (issue.code === 'too_small') return 'min'
+  if (issue.code === 'too_big') return 'max'
+
+  return issue.code
+}
 
 export function validateSchema<T extends z.ZodObject>(
   schema: T,
@@ -6,18 +18,15 @@ export function validateSchema<T extends z.ZodObject>(
 ) {
   const zodResult = schema.safeParse(values, { reportInput: true })
   if (!zodResult.success) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad request',
-      data: {
-        errors: zodResult.error.issues.map((issue) => {
-          return {
-            field: issue.path[0],
-            message: issue.message,
-          }
-        }),
-      },
-    })
+    throw new InputValidationError(
+      zodResult.error.issues.map((issue: $ZodIssue) => {
+        return {
+          field: issue.path.join('.'),
+          message: issue.message,
+          rule: getRuleFromIssue(issue),
+        }
+      }),
+    )
   }
 
   return zodResult.data

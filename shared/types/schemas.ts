@@ -6,38 +6,38 @@ z.config({
       case 'too_small':
         switch (typeof iss.input) {
           case 'string':
-            if (iss.input === '') return 'This field is required'
-            else return `This field must be at least ${iss.minimum} characters`
+            if (iss.input === '') return 'This field is required.'
+            else return `This field must be at least ${iss.minimum} characters.`
 
           case 'number':
-            return `This field must be greater than ${iss.minimum}`
+            return `This field must be greater than ${iss.minimum}.`
         }
         break
 
       case 'invalid_type':
         if (iss.input === null || iss.input === undefined)
-          return 'This field is required'
-        else return `This field must be a ${iss.expected}`
+          return 'This field is required.'
+        else return `This field must be a ${iss.expected}.`
 
       case 'too_big':
         switch (typeof iss.input) {
           case 'string':
-            return `This field must be lower than ${iss.maximum} characters`
+            return `This field must be lower than ${iss.maximum} characters.`
 
           case 'number':
-            return `This field must be lower than ${iss.maximum}`
+            return `This field must be lower than ${iss.maximum}.`
         }
         break
 
       case 'invalid_format':
         switch (iss.format) {
           case 'email':
-            return 'Invalid email address format'
+            return 'Invalid email address format.;'
         }
         break
 
       default:
-        return 'Unknown error'
+        return 'Unknown error.'
     }
   },
 })

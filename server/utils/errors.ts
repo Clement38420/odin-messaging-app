@@ -1,67 +1,47 @@
+import type { DatabaseError } from 'pg'
 import { H3Error } from 'h3'
-import { DrizzleQueryError } from 'drizzle-orm'
 
-type dbErrorInfos = {
-  statusCode: number
-  statusMessage: string
-  field?: string
-  fieldMessage?: string
-}
+export function handleError(error: unknown) {
+  if (error instanceof H3Error) {
+    throw error
+  }
 
-const dbErrorMap: Record<string, dbErrorInfos> = {
-  '23505': {
-    statusCode: 400,
-    statusMessage: 'Some infos must be unique',
-    fieldMessage: 'Already exists',
-  },
-}
+  handleDrizzleError(error)
 
-export function errorHandler(error: unknown) {
-  if (error instanceof H3Error) throw error
-  if (error instanceof DrizzleQueryError) dbErrorHandler(error)
   throw createError({
     statusCode: 500,
-    statusMessage: 'Internal server error',
-    data: {
-      errors: [
-        {
-          field: 'general',
-          message: 'An unexpected error occurred. Please try again later.',
-        },
-      ],
-      detail: error,
-    },
+    statusMessage: 'Internal Server Error',
   })
 }
 
-export function dbErrorHandler(error: DrizzleQueryError) {
-  if (error.cause?.code && error.cause?.constraint) {
-    const errorInfos = dbErrorMap[error.cause!.code]
+const CONSTRAINT_MAP: Record<string, string> = {
+  users_email_unique: 'email',
+  users_username_unique: 'username',
+  general: 'general',
+}
 
-    if (errorInfos) {
-      const field = error.cause!.constraint.split('_')[1]
-
-      throw createError({
-        statusCode: errorInfos.statusCode,
-        statusMessage: errorInfos.statusMessage,
-        data: {
-          errors: [
-            {
-              field: field ?? 'general',
-              message: errorInfos.fieldMessage,
-            },
-          ],
-          detail: error,
-        },
-      })
+export function handleDrizzleError(error: unknown) {
+  if (error instanceof DrizzleQueryError) {
+    const cause = error.cause as DatabaseError
+    switch (cause?.code) {
+      case '23505': {
+        const field = CONSTRAINT_MAP[cause?.constraint || 'general']
+        throw new ResourceConflictError(
+          field,
+          'This value is already taken, try another one.',
+        )
+      }
+      case '23503': {
+        const field = CONSTRAINT_MAP[cause?.constraint || 'general']
+        throw new InputValidationError([
+          {
+            field,
+            message: 'Resource not found or invalid reference',
+            rule: 'exists',
+          },
+        ])
+      }
     }
-
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Erreur',
-      data: {
-        detail: error.cause,
-      },
-    })
   }
+  throw error
 }

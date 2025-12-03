@@ -7,16 +7,18 @@ export default defineEventHandler(async (event) => {
   const userData = validateSchema(userLoginSchema, body)
 
   try {
-    const invalidCredentialsError = createError({
-      statusCode: 401,
-      statusMessage: 'Invalid credentials',
-      data: {
-        errors: [
-          { field: 'username', message: 'Invalid credentials.' },
-          { field: 'password', message: 'Invalid credentials.' },
-        ],
+    const invalidCredentialsError = new InputValidationError([
+      {
+        field: 'username',
+        message: 'Invalid username or password',
+        rule: 'invalid_credentials',
       },
-    })
+      {
+        field: 'password',
+        message: 'Invalid username or password',
+        rule: 'invalid_credentials',
+      },
+    ])
 
     const user = await db.query.users.findFirst({
       where: eq(users.username, userData.username),
@@ -40,6 +42,6 @@ export default defineEventHandler(async (event) => {
 
     return sendRedirect(event, '/', 302)
   } catch (error) {
-    errorHandler(error)
+    handleError(error)
   }
 })

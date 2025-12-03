@@ -14,6 +14,6 @@ export default defineEventHandler(async (event) => {
 
     return user
   } catch (error) {
-    errorHandler(error)
+    handleError(error)
   }
 })

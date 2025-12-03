@@ -21,19 +21,13 @@ export default defineEventHandler(async (event) => {
       (username) => !existingUsernames.includes(username),
     )
     if (missingUsernames.length > 0) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Participants invalid',
-        data: {
-          errors: [
-            {
-              field: 'participantUsernames',
-              message: 'Some participants do not exist.',
-              values: missingUsernames,
-            },
-          ],
-        },
-      })
+      throw new InputValidationError(
+        missingUsernames.map((username) => ({
+          field: `participantUsernames.${data.participantUsernames.indexOf(username)}`,
+          message: `User '${username}' does not exist`,
+          rule: 'exists',
+        })),
+      )
     }
 
     const usersFingerprint = existingIds.sort((a, b) => a - b).join('_')
@@ -44,13 +38,13 @@ export default defineEventHandler(async (event) => {
     })
 
     if (existingConversation) {
-      throw createError({
-        statusCode: 409,
-        statusMessage: 'Conversation already exists',
-        data: {
-          existingConversationId: existingConversation.id,
+      throw new ResourceConflictError(
+        'general',
+        'Conversation already exists',
+        {
+          conversationId: existingConversation.id,
         },
-      })
+      )
     }
 
     const conversation = await db.transaction(async (tx) => {
@@ -74,6 +68,6 @@ export default defineEventHandler(async (event) => {
 
     return conversation
   } catch (error) {
-    errorHandler(error)
+    handleError(error)
   }
 })
