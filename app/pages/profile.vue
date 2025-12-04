@@ -6,7 +6,7 @@ definePageMeta({
 
 <template>
   <main class="flex w-full flex-col items-center justify-center">
-    <BaseCard class="flex w-100 flex-col px-16 py-10 align-middle">
+    <BaseCard class="flex w-100 flex-col px-16 py-10">
       <div class="mb-8 flex w-full flex-col items-center">
         <Icon
           class="text-text-muted mb-1 aspect-square h-20 w-auto"
@@ -17,7 +17,7 @@ definePageMeta({
           {{ useAuthStore().getUserUsername() ?? 'You' }}
         </h2>
       </div>
-      <VForm
+      <FormsVForm
         :schema="userProfileSchema"
         api-endpoint="/api/users/me"
         :options="{
