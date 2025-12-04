@@ -2,6 +2,7 @@ import type { $Fetch, NitroFetchRequest } from 'nitropack'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const headers = useRequestHeaders(['cookie'])
+  const conversationsStore = useConversationsStore()
 
   const api = $fetch.create({
     onRequest({ options }) {
@@ -20,13 +21,16 @@ export default defineNuxtPlugin((nuxtApp) => {
           return
         }
 
-        const currentPath = useRouter().currentRoute.value.path
-        if (currentPath === '/login' || currentPath === '/register') {
-          return
-        }
+        await nuxtApp.runWithContext(async () => {
+          const currentPath = useRouter().currentRoute.value.path
+          if (currentPath === '/login' || currentPath === '/register') {
+            return
+          }
 
-        useAuthStore().clearUser()
-        await nuxtApp.runWithContext(() => navigateTo('/login'))
+          useAuthStore().clearUser()
+          conversationsStore.clearConversations()
+          await navigateTo('/login')
+        })
       }
     },
   }) as $Fetch<unknown, NitroFetchRequest>
