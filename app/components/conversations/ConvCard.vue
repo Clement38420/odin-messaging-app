@@ -6,6 +6,11 @@ defineProps<{
 
 <template>
   <NuxtLink :to="`/conversations/${conversation.id}`" class="rounded-2xl">
+  <NuxtLink
+    :to="`/conversations/${conversation.id}`"
+    class="group rounded-2xl"
+    @click="useConversationsStore().updateLastSeenAt(conversation.id)"
+  >
     <BaseCard
       class="hover-effect relative w-full cursor-pointer items-start gap-1 pr-10 !shadow-md"
       :class="

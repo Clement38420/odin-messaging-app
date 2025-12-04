@@ -24,6 +24,15 @@ export const useConversationsStore = defineStore('conversations', () => {
     }
   }
 
+  function updateLastSeenAt(conversationId: number) {
+    const conversation = conversations.value.find(
+      (c) => c.id === conversationId,
+    )
+    if (conversation) {
+      conversation.lastSeenAt = new Date().toISOString()
+    }
+  }
+
   function isRead(conversation: ConversationSnippet) {
     if (conversation.id === getCurrentConversationId()) return true
     if (!conversation.lastMessage) return true
@@ -63,5 +72,6 @@ export const useConversationsStore = defineStore('conversations', () => {
     isRead,
     getCurrentConversationId,
     getCurrentConversation,
+    updateLastSeenAt,
   }
 })
