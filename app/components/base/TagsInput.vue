@@ -21,6 +21,11 @@ const addTag = () => {
   }
 }
 
+const enterPressed = (e: KeyboardEvent) => {
+  if (currentInput.value) e.preventDefault()
+  addTag()
+}
+
 const removeTag = (index: number) => {
   const newTags = [...model.value]
   newTags.splice(index, 1)
@@ -79,7 +84,7 @@ function tagError(tagIndex: number) {
         type="text"
         class="peer bg-transparent text-base outline-none"
         placeholder=""
-        @keydown.enter.prevent="addTag"
+        @keydown.enter="enterPressed"
         @keydown.space.prevent="addTag"
         @keydown.delete="removeLastTag"
         @blur="addTag"
