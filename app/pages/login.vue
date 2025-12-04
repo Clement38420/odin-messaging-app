@@ -4,16 +4,10 @@ definePageMeta({
   layout: false,
 })
 
-const { fields, generalError, isSubmitPending, submit } = useForm(
-  userLoginSchema,
-  'api/login',
-  {
-    onSuccess: async () => {
-      await useAuthStore().fetchUser()
-      await navigateTo('/')
-    },
-  },
-)
+async function onSuccess() {
+  await useAuthStore().fetchUser()
+  await navigateTo('/')
+}
 </script>
 
 <template>
@@ -24,29 +18,13 @@ const { fields, generalError, isSubmitPending, submit } = useForm(
         alt="Dash Logo"
         class="mb-10 h-20 self-center"
       />
-      <form class="relative flex flex-col" @submit.prevent="submit">
-        <BaseTextInput
-          v-for="field in fields"
-          :key="field.name"
-          v-model="field.value"
-          :field="field"
-        />
-        <p v-show="generalError" class="text-error -mt-2 mb-2 text-sm">
-          <Icon
-            class="align-middle"
-            name="material-symbols:error-outline-rounded"
-          ></Icon>
-          {{ generalError }}
-        </p>
-        <BaseButton color="primary">
-          <Icon
-            v-show="isSubmitPending"
-            class="align-middle"
-            name="line-md:loading-loop"
-          ></Icon>
-          Login
-        </BaseButton>
-      </form>
+      <FormsVForm
+        class="max-w-md"
+        :schema="userLoginSchema"
+        api-endpoint="/api/login"
+        :options="{ onSuccess, submitText: 'Login' }"
+      >
+      </FormsVForm>
       <NuxtLink class="mt-2 self-center text-sm underline" to="/register"
         >Register</NuxtLink
       >

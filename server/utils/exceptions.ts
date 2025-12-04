@@ -5,12 +5,13 @@ export abstract class DomainError extends H3Error {
     message: string,
     code: string,
     statusCode: number = 422,
+    statusMessage: string = 'Unprocessable Entity',
     issues: ErrorIssue[] = [],
     meta?: Record<string, unknown>,
   ) {
     super(message)
     this.statusCode = statusCode
-    this.statusMessage = 'Unprocessable Entity'
+    this.statusMessage = statusMessage
     this.data = {
       code,
       issues,
@@ -21,21 +22,38 @@ export abstract class DomainError extends H3Error {
 
 export class InputValidationError extends DomainError {
   constructor(issues: ErrorIssue[]) {
-    super('Validation Failed', 'VALIDATION_ERROR', 422, issues)
+    super(
+      'Validation Failed',
+      'VALIDATION_ERROR',
+      422,
+      'Unprocessable Entity',
+      issues,
+    )
   }
 }
 
+type ConflictOptions = {
+  code?: 'UNIQUE_VIOLATION' | 'STATE_CONFLICT' | 'VERSION_CONFLICT'
+  field?: string
+  meta?: Record<string, unknown>
+}
+
 export class ResourceConflictError extends DomainError {
-  constructor(
-    field: string,
-    message: string = 'Already exists',
-    meta?: Record<string, unknown>,
-  ) {
+  constructor(message: string, options: ConflictOptions = {}) {
+    const { code = 'UNIQUE_VIOLATION', field, meta } = options
+
     super(
       'Resource Conflict',
-      'RESOURCE_CONFLICT',
+      code,
       409,
-      [{ field, message, rule: 'unique' }],
+      'Resource Conflict',
+      [
+        {
+          field: field || 'general',
+          message,
+          rule: code.toLowerCase(),
+        },
+      ],
       meta,
     )
   }
@@ -43,6 +61,6 @@ export class ResourceConflictError extends DomainError {
 
 export class BusinessError extends DomainError {
   constructor(code: string, message: string) {
-    super(message, code, 422, [])
+    super(message, code, 422, 'Unprocessable Entity', [])
   }
 }

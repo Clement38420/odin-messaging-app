@@ -2,46 +2,47 @@
 const model = defineModel<string>()
 
 defineProps<{
-  field: FormField
+  error: string | undefined
+  props: FormFieldProps
 }>()
 
 const specialTypes = ['textarea']
 </script>
 
 <template>
-  <div class="relative mb-8" :class="field.error ? 'animate-shakeX-soft' : ''">
+  <div class="relative mb-8" :class="error ? 'animate-shakeX-soft' : ''">
     <input
-      v-if="!specialTypes.includes(field.type ?? 'text')"
-      :id="field.name"
+      v-if="!specialTypes.includes(props.type ?? 'text')"
+      :id="props.name"
       v-model="model"
-      :type="field.type ?? 'text'"
+      :type="props.type ?? 'text'"
       placeholder=""
       class="peer focus:border-primary-light invalid:input-error w-full rounded-md border-2 border-zinc-400 bg-transparent p-2 transition-colors focus:outline-none"
-      :class="{ 'input-error': field.error }"
+      :class="{ 'input-error': error }"
     />
     <textarea
-      v-if="field.type === 'textarea'"
-      :id="field.name"
+      v-if="props.type === 'textarea'"
+      :id="props.name"
       v-model="model"
       placeholder=""
       class="peer focus:border-primary-light invalid:input-error max-h-60 min-h-11 w-full rounded-md border-2 border-zinc-400 bg-transparent p-2 transition-colors focus:outline-none"
-      :class="{ 'input-error': field.error }"
+      :class="{ 'input-error': error }"
     ></textarea>
 
     <label
-      :for="field.name"
+      :for="props.name"
       class="invalid:input-error text-text-muted peer-focus:text-primary-light absolute -top-5 left-2 cursor-text text-sm not-peer-focus:peer-placeholder-shown:translate-y-7.5 not-peer-focus:peer-placeholder-shown:text-base"
-      :class="{ 'input-error': field.error }"
+      :class="{ 'input-error': error }"
     >
-      {{ field.title }}
-      <span v-if="!field.required" class="-ml-1 text-xs"> (optional)</span>
+      {{ props.title }}
+      <span v-if="!props.required" class="-ml-1 text-xs"> (optional)</span>
     </label>
-    <p v-show="field.error" class="text-error mt-1 max-w-full text-sm">
+    <p v-show="error" class="text-error mt-1 max-w-full text-sm">
       <Icon
         class="align-middle"
         name="material-symbols:error-outline-rounded"
       ></Icon>
-      {{ field.error }}
+      {{ error }}
     </p>
   </div>
 </template>

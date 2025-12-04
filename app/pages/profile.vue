@@ -1,27 +1,9 @@
 <script setup lang="ts">
+import VForm from '~/components/forms/VForm.vue'
+
 definePageMeta({
   middleware: ['auth'],
 })
-
-const { $api } = useNuxtApp()
-
-const { fields, generalError, isSubmitPending, submit } = useForm(
-  userProfileSchema,
-  'api/users/me',
-  {
-    method: 'PATCH',
-  },
-)
-
-const { data } = await useAsyncData(() => $api('/api/users/me'))
-const userData = unref(data)
-
-if (!userData) alert('An error occurred please reload the page.')
-else {
-  Object.keys(fields).forEach((key) => {
-    fields[key]!.value = userData[key]
-  })
-}
 </script>
 
 <template>
@@ -33,31 +15,18 @@ else {
           name="material-symbols:account-circle-outline"
           mode="svg"
         ></Icon>
-        <h2 class="text-2xl">{{ fields?.username?.value ?? 'You' }}</h2>
+        <h2 class="text-2xl">
+          {{ useAuthStore().getUserUsername() ?? 'You' }}
+        </h2>
       </div>
-      <form class="relative flex flex-col" @submit.prevent="submit">
-        <BaseTextInput
-          v-for="field in fields"
-          :key="field.name"
-          v-model="field.value"
-          :field="field"
-        />
-        <p v-show="generalError" class="text-error -mt-2 mb-2 text-sm">
-          <Icon
-            class="align-middle"
-            name="material-symbols:error-outline-rounded"
-          ></Icon>
-          {{ generalError }}
-        </p>
-        <BaseButton color="primary">
-          <Icon
-            v-show="isSubmitPending"
-            class="align-middle"
-            name="line-md:loading-loop"
-          ></Icon>
-          Save changes
-        </BaseButton>
-      </form>
+      <VForm
+        :schema="userProfileSchema"
+        api-endpoint="/api/users/me"
+        :options="{
+          method: 'PATCH',
+          initialValues: useAuthStore().getUserProfile()!,
+        }"
+      />
     </BaseCard>
   </main>
 </template>

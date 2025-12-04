@@ -1,8 +1,11 @@
-export type FormField = {
+export type FormFieldProps = {
   name: string
-  value: string | string[]
   title: string
-  error: string
   type?: string
-  required: boolean
+  required?: boolean
+}
+
+export type FormField = {
+  value: unknown
+  props: FormFieldProps
 }

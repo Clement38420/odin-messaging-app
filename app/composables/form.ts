@@ -1,15 +1,55 @@
 import { z } from 'zod'
-import type { FormErrorData } from '#shared/types/errors'
+
+export function getBaseSchema(schema: z.ZodType): z.ZodType {
+  if (
+    schema instanceof z.ZodOptional ||
+    schema instanceof z.ZodNullable ||
+    schema instanceof z.ZodDefault
+  ) {
+    return getBaseSchema(schema.unwrap() as z.ZodType)
+  }
+  return schema
+}
+
+export function getDefaultValue(schema: z.ZodType): unknown {
+  if (schema instanceof z.ZodDefault) {
+    return schema.parse(undefined)
+  }
+
+  if (schema instanceof z.ZodOptional) return undefined
+  if (schema instanceof z.ZodNullable) return null
+
+  if (schema instanceof z.ZodString) return ''
+  if (schema instanceof z.ZodNumber) return 0
+  if (schema instanceof z.ZodBoolean) return false
+  if (schema instanceof z.ZodArray) return []
+  if (schema instanceof z.ZodDate) return new Date()
+
+  if (schema instanceof z.ZodObject) {
+    const shape = schema.shape
+    const defaultObject: Record<string, unknown> = {}
+
+    for (const key in shape) {
+      defaultObject[key] = getDefaultValue(shape[key])
+    }
+    return defaultObject
+  }
+
+  return undefined
+}
+
+export type UseFormOptions = {
+  method?: 'POST' | 'PATCH' | 'PUT'
+  initialValues?: Record<string, unknown>
+  beforeSubmit?: (fields: Record<string, FormField>) => Promise<void> | void
+  onSuccess?: (data: unknown) => Promise<void> | void
+  onError?: (error: unknown) => Promise<void> | void
+}
 
 export function useForm<T extends z.ZodObject>(
   fieldsSchema: T,
   apiEndpoint: string,
-  options?: {
-    method?: 'POST' | 'PATCH' | 'PUT'
-    onSuccess?: (data: unknown) => Promise<void> | void
-    beforeSubmit?: () => Promise<void> | void
-    onError?: (error: unknown) => Promise<void> | void
-  },
+  options?: UseFormOptions,
 ) {
   const fields = reactive(
     Object.fromEntries(
@@ -20,36 +60,42 @@ export function useForm<T extends z.ZodObject>(
           return [
             field,
             {
-              name: field,
-              title: schema.meta().description,
-              value: schema instanceof z.ZodArray ? [] : '',
-              type: schema.meta().type,
-              error: '',
-              required: !(
-                schema.safeParse(undefined).success || schema.isNullable()
-              ),
+              value: options?.initialValues?.[field] ?? getDefaultValue(schema),
+              props: {
+                name: field,
+                title: schema.meta().description,
+                type: schema.meta().type,
+                required: !(
+                  schema.safeParse(undefined).success || schema.isNullable()
+                ),
+              },
             } as FormField,
           ]
         }),
     ),
   )
 
-  const generalError = ref('')
+  const errors = reactive<Record<string, string>>({})
 
   const isSubmitPending = ref(false)
 
   Object.keys(fields).forEach((field) => {
     watch(
       () => fields[field]?.value,
-      () => (fields[field]!.error = ''),
+      () =>
+        Object.keys(errors).forEach((path) => {
+          if (path === field || path.startsWith(field + '.'))
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete errors[path]
+        }),
     )
   })
 
   async function submit() {
-    if (options?.beforeSubmit) await options.beforeSubmit()
+    if (options?.beforeSubmit) await options.beforeSubmit(fields)
 
-    useClearFormErrors(fields)
-    generalError.value = ''
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    Object.keys(errors).forEach((key) => delete errors[key])
 
     isSubmitPending.value = true
 
@@ -71,17 +117,14 @@ export function useForm<T extends z.ZodObject>(
 
       if (error instanceof z.ZodError) {
         error.issues.forEach((issue) => {
-          fields[issue.path[0] as string]!.error = issue.message
+          errors[issue.path.join('.')] = issue.message
         })
-      } else if (error instanceof FetchError && error.data.data?.errors) {
-        ;(error.data.data.errors as FormErrorData).forEach((fieldError) => {
-          if (fieldError.field === 'general')
-            generalError.value = fieldError.message
-          fields[fieldError.field]!.error = fieldError.message
+      } else if (error instanceof FetchError && error.data.data?.issues) {
+        ;(error.data.data.issues as ErrorIssue[]).forEach((issue) => {
+          errors[issue.field]! = issue.message
         })
       } else {
-        generalError.value =
-          'An unexpected error occurred. Please try again later.'
+        errors.general = 'An unexpected error occurred. Please try again later.'
       }
     } finally {
       isSubmitPending.value = false
@@ -90,14 +133,8 @@ export function useForm<T extends z.ZodObject>(
 
   return {
     fields,
-    generalError,
+    errors,
     isSubmitPending,
     submit,
   }
-}
-
-export function useClearFormErrors(fields: Record<string, FormField>) {
-  Object.keys(fields).forEach((field) => {
-    fields[field]!.error = ''
-  })
 }

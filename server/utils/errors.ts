@@ -27,8 +27,10 @@ export function handleDrizzleError(error: unknown) {
       case '23505': {
         const field = CONSTRAINT_MAP[cause?.constraint || 'general']
         throw new ResourceConflictError(
-          field,
           'This value is already taken, try another one.',
+          {
+            field,
+          },
         )
       }
       case '23503': {

@@ -11,6 +11,10 @@ export const useAuthStore = defineStore('auth', () => {
     return user.value?.username
   }
 
+  function getUserProfile() {
+    return user.value
+  }
+
   async function fetchUser() {
     try {
       user.value = await useNuxtApp().$api('/api/users/me')
@@ -30,5 +34,6 @@ export const useAuthStore = defineStore('auth', () => {
     clearUser,
     getUserId,
     getUserUsername,
+    getUserProfile,
   }
 })

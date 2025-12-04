@@ -21,13 +21,18 @@ export default defineEventHandler(async (event) => {
       (username) => !existingUsernames.includes(username),
     )
     if (missingUsernames.length > 0) {
-      throw new InputValidationError(
-        missingUsernames.map((username) => ({
+      throw new InputValidationError([
+        ...missingUsernames.map((username) => ({
           field: `participantUsernames.${data.participantUsernames.indexOf(username)}`,
           message: `User '${username}' does not exist`,
           rule: 'exists',
         })),
-      )
+        {
+          field: 'participantUsernames',
+          message: "Some users don't exist",
+          rule: 'exists',
+        },
+      ])
     }
 
     const usersFingerprint = existingIds.sort((a, b) => a - b).join('_')
@@ -38,13 +43,11 @@ export default defineEventHandler(async (event) => {
     })
 
     if (existingConversation) {
-      throw new ResourceConflictError(
-        'general',
-        'Conversation already exists',
-        {
-          conversationId: existingConversation.id,
+      throw new ResourceConflictError('Conversation already exists', {
+        meta: {
+          existingConversationId: existingConversation.id,
         },
-      )
+      })
     }
 
     const conversation = await db.transaction(async (tx) => {

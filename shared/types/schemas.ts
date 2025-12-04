@@ -32,7 +32,7 @@ z.config({
       case 'invalid_format':
         switch (iss.format) {
           case 'email':
-            return 'Invalid email address format.;'
+            return 'Invalid email address format.'
         }
         break
 
