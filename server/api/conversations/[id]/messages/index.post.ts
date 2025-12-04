@@ -27,7 +27,10 @@ export default defineEventHandler(async (event) => {
       )[0]
     })
 
-    return message
+    return {
+      ...message,
+      sender: { id: event.context.user.id, name: event.context.user.name },
+    }
   } catch (error) {
     handleError(error)
   }

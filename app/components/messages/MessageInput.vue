@@ -2,7 +2,7 @@
 import { z } from 'zod'
 
 const emit = defineEmits<{
-  (e: 'message-sent', message: Message): void
+  (e: 'message-sent', message: ConversationMessage): void
 }>()
 
 const props = defineProps<{

@@ -19,10 +19,10 @@ function scrollToBottom() {
     messagesContainer.value.scrollTop = messagesContainer.value?.scrollHeight
 }
 
-async function addMessage(message: Message) {
+async function addMessage(message: ConversationMessage) {
   messages.value = [...(messages.value ?? []), message]
 
-  conversationStore.updateLastMessage(conversationId, message)
+  conversationStore.updateLastMessage(conversationId!, message)
 
   await nextTick()
   scrollToBottom()
