@@ -3,6 +3,10 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+useHead(() => ({
+  title: `DASH - ${useConversationsStore().getCurrentConversation()?.name || 'Not named'}`,
+}))
+
 const { $api } = useNuxtApp()
 const conversationStore = useConversationsStore()
 
