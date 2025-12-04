@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import VForm from '~/components/forms/VForm.vue'
-
 definePageMeta({
   middleware: ['auth'],
 })

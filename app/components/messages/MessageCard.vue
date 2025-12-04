@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ConversationMessage } from '#shared/types/schemas'
-
 const props = defineProps<{
   message: ConversationMessage
 }>()
