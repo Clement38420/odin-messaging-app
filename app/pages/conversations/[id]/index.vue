@@ -5,16 +5,17 @@ definePageMeta({
 
 const { $api } = useNuxtApp()
 const conversationsStore = useConversationsStore()
+const route = useRoute()
 
 useHead(() => ({
   title: `DASH - ${conversationsStore.getCurrentConversation()?.name || 'Not named'}`,
 }))
 
-const conversationId = conversationsStore.getCurrentConversationId()
+const conversationId = computed(() => Number(route.params.id))
 
 const { data: messages, error } = await useAsyncData(
-  `messages-${conversationId}`,
-  () => $api(`/api/conversations/${conversationId}/messages`),
+  `messages-${conversationId.value}`,
+  () => $api(`/api/conversations/${conversationId.value}/messages`),
 )
 
 if (error.value) {
