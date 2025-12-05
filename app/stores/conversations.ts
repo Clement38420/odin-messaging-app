@@ -68,6 +68,12 @@ export const useConversationsStore = defineStore('conversations', () => {
     return conversations.value.find((c) => c.id === currentId) || null
   }
 
+  function deleteConversation(conversationId: number) {
+    conversations.value = conversations.value.filter(
+      (c) => c.id !== conversationId,
+    )
+  }
+
   return {
     conversations,
     fetchConversations,
@@ -77,5 +83,6 @@ export const useConversationsStore = defineStore('conversations', () => {
     getCurrentConversationId,
     getCurrentConversation,
     updateLastSeenAt,
+    deleteConversation,
   }
 })

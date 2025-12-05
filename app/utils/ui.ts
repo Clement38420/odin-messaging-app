@@ -1,1 +1,1 @@
-export type Colors = 'primary'
+export type Colors = 'primary' | 'danger'

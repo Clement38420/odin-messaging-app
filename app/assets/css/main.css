@@ -13,6 +13,9 @@
     --color-secondary: var(--color-blue-500);
     --color-error: var(--color-rose-700);
 
+    --color-danger: var(--color-red-700);
+    --color-danger-light: var(--color-red-600);
+
     --font-body: 'Roboto Mono', sans-serif;
 
     --animate-shakeX-soft: shakeX-soft 0.3s ease-in-out;
