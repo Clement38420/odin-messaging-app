@@ -1,10 +1,13 @@
 <script setup lang="ts">
 const { $api, runWithContext } = useNuxtApp()
 
+const conversationsStore = useConversationsStore()
+const authStore = useAuthStore()
+
 async function logout() {
   await $api('/api/logout')
-  useAuthStore().clearUser()
-  useConversationsStore().clearConversations()
+  authStore.clearUser()
+  conversationsStore.clearConversations()
   await runWithContext(() => navigateTo('/login'))
 }
 </script>

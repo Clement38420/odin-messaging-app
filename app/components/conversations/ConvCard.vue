@@ -2,6 +2,8 @@
 defineProps<{
   conversation: ConversationSnippet
 }>()
+
+const conversationsStore = useConversationsStore()
 </script>
 
 <template>
@@ -9,7 +11,7 @@ defineProps<{
     <BaseCard
       class="hover-effect relative w-full cursor-pointer items-start gap-1 pr-10 !shadow-md"
       :class="
-        useConversationsStore().getCurrentConversationId() === conversation.id
+        conversationsStore.getCurrentConversationId() === conversation.id
           ? 'bg-bg-light scale-105 shadow-xl'
           : ''
       "
@@ -17,7 +19,7 @@ defineProps<{
       <NuxtLink
         :to="`/conversations/${conversation.id}`"
         class="absolute inset-0 z-10"
-        @click="useConversationsStore().updateLastSeenAt(conversation.id)"
+        @click="conversationsStore.updateLastSeenAt(conversation.id)"
       ></NuxtLink>
       <h2 class="w-full truncate text-left text-lg">
         {{ conversation.name ?? 'Not named' }}
@@ -29,7 +31,7 @@ defineProps<{
         class="absolute top-[50%] right-5 z-20 flex -translate-y-[50%] items-center gap-2"
       >
         <div
-          v-show="!useConversationsStore().isRead(conversation)"
+          v-show="!conversationsStore.isRead(conversation)"
           class="bg-secondary h-2 w-2 rounded-full"
         ></div>
         <NuxtLink

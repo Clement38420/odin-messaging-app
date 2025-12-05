@@ -5,9 +5,10 @@ definePageMeta({
 
 const { $api } = useNuxtApp()
 const route = useRoute()
+const authStore = useAuthStore()
 const userId = Number(route.params.id)
 
-if (userId === useAuthStore().getUserId()) {
+if (userId === authStore.getUserId()) {
   await navigateTo('/profile')
 }
 

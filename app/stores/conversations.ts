@@ -1,5 +1,6 @@
 export const useConversationsStore = defineStore('conversations', () => {
   const { $api } = useNuxtApp()
+  const route = useRoute()
 
   const conversations = ref<ConversationSnippet[]>([])
 
@@ -56,7 +57,7 @@ export const useConversationsStore = defineStore('conversations', () => {
   }
 
   function getCurrentConversationId() {
-    return useRoute().params.id ? Number(useRoute().params.id) : null
+    return route.params.id ? Number(route.params.id) : null
   }
 
   function getCurrentConversation() {

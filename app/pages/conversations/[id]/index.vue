@@ -3,14 +3,14 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { $api } = useNuxtApp()
+const conversationsStore = useConversationsStore()
+
 useHead(() => ({
-  title: `DASH - ${useConversationsStore().getCurrentConversation()?.name || 'Not named'}`,
+  title: `DASH - ${conversationsStore.getCurrentConversation()?.name || 'Not named'}`,
 }))
 
-const { $api } = useNuxtApp()
-const conversationStore = useConversationsStore()
-
-const conversationId = conversationStore.getCurrentConversationId()
+const conversationId = conversationsStore.getCurrentConversationId()
 
 const { data: messages } = await useAsyncData(
   `messages-${conversationId}`,
@@ -26,7 +26,7 @@ function scrollToBottom() {
 async function addMessage(message: ConversationMessage) {
   messages.value = [...(messages.value ?? []), message]
 
-  conversationStore.updateLastMessage(conversationId!, message)
+  conversationsStore.updateLastMessage(conversationId!, message)
 
   await nextTick()
   scrollToBottom()

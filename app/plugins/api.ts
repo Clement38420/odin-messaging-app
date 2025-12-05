@@ -2,6 +2,7 @@ import type { $Fetch, NitroFetchRequest } from 'nitropack'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const headers = useRequestHeaders(['cookie'])
+  const authStore = useAuthStore()
   const conversationsStore = useConversationsStore()
 
   const api = $fetch.create({
@@ -27,7 +28,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             return
           }
 
-          useAuthStore().clearUser()
+          authStore.clearUser()
           conversationsStore.clearConversations()
           await navigateTo('/login')
         })

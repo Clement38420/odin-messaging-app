@@ -2,6 +2,8 @@
 definePageMeta({
   middleware: ['auth'],
 })
+
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -14,7 +16,7 @@ definePageMeta({
           mode="svg"
         ></Icon>
         <h2 class="text-2xl">
-          {{ useAuthStore().getUserUsername() ?? 'You' }}
+          {{ authStore.getUserUsername() ?? 'You' }}
         </h2>
       </div>
       <FormsVForm
@@ -22,7 +24,7 @@ definePageMeta({
         api-endpoint="/api/users/me"
         :options="{
           method: 'PATCH',
-          initialValues: useAuthStore().getUserProfile()!,
+          initialValues: authStore.getUserProfile()!,
         }"
       />
     </BaseCard>

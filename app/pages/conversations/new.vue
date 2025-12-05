@@ -3,18 +3,21 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const conversationsStore = useConversationsStore()
+const authStore = useAuthStore()
+
 const formOptions = {
   beforeSubmit: (fields) => {
-    const username = useAuthStore().getUserUsername() as string
+    const username = authStore.getUserUsername() as string
 
     if (!fields.participantUsernames.value.includes(username)) {
       ;(fields.participantUsernames!.value as streing[]).push(
-        useAuthStore().getUserUsername(),
+        authStore.getUserUsername(),
       )
     }
   },
   onSuccess: async (conversation: Conversation) => {
-    useConversationsStore().fetchConversations()
+    await conversationsStore.fetchConversations()
     await navigateTo(`/conversations/${conversation.id}`)
   },
   onError: async (error) => {

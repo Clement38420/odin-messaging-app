@@ -3,9 +3,10 @@ const props = defineProps<{
   message: ConversationMessage
 }>()
 
-const isOwn = computed(
-  () => props.message.senderId === useAuthStore().getUserId(),
-)
+const conversationsStore = useConversationsStore()
+const authStore = useAuthStore()
+
+const isOwn = computed(() => props.message.senderId === authStore.getUserId())
 </script>
 
 <template>
@@ -14,7 +15,7 @@ const isOwn = computed(
     class="relative max-w-120 drop-shadow-md"
   >
     <div
-      v-if="!isOwn && useConversationsStore().getCurrentConversation()?.isGroup"
+      v-if="!isOwn && conversationsStore.getCurrentConversation()?.isGroup"
       class="text-text-muted mb-1 ml-2 text-xs leading-none"
     >
       {{ message.sender.username }}

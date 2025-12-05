@@ -4,8 +4,10 @@ definePageMeta({
   layout: false,
 })
 
+const authStore = useAuthStore()
+
 async function onSuccess() {
-  await useAuthStore().fetchUser()
+  await authStore.fetchUser()
   await navigateTo('/')
 }
 </script>
