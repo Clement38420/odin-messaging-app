@@ -12,10 +12,18 @@ useHead(() => ({
 
 const conversationId = conversationsStore.getCurrentConversationId()
 
-const { data: messages } = await useAsyncData(
+const { data: messages, error } = await useAsyncData(
   `messages-${conversationId}`,
   () => $api(`/api/conversations/${conversationId}/messages`),
 )
+
+if (error.value) {
+  throw createError({
+    statusCode: error.value.statusCode || 500,
+    statusMessage:
+      error.value.statusMessage || 'An error occurred while fetching messages',
+  })
+}
 
 const messagesContainer = useTemplateRef('messagesContainer')
 function scrollToBottom() {
