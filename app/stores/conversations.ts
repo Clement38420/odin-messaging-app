@@ -1,16 +1,19 @@
 export const useConversationsStore = defineStore('conversations', () => {
-  const { $api } = useNuxtApp()
   const route = useRoute()
 
   const conversations = ref<ConversationSnippet[]>([])
 
   async function fetchConversations() {
-    if (conversations.value.length > 0) return
+    if (conversations.value.length > 0) {
+      return conversations.value
+    }
 
-    const data = await $api('/api/conversations')
+    const data = await useNuxtApp().$api('/api/conversations')
     conversations.value = data || []
 
     sortConversations()
+
+    return conversations.value
   }
 
   function updateLastMessage(conversationId: number, message: Message) {

@@ -6,7 +6,9 @@ definePageMeta({
 const route = useRoute()
 const conversationsStore = useConversationsStore()
 
-await conversationsStore.fetchConversations()
+await useAsyncData('conversations-list', () =>
+  conversationsStore.fetchConversations(),
+)
 </script>
 
 <template>
