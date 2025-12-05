@@ -6,38 +6,38 @@ z.config({
       case 'too_small':
         switch (typeof iss.input) {
           case 'string':
-            if (iss.input === '') return 'This field is required'
-            else return `This field must be at least ${iss.minimum} characters`
+            if (iss.input === '') return 'This field is required.'
+            else return `This field must be at least ${iss.minimum} characters.`
 
           case 'number':
-            return `This field must be greater than ${iss.minimum}`
+            return `This field must be greater than ${iss.minimum}.`
         }
         break
 
       case 'invalid_type':
         if (iss.input === null || iss.input === undefined)
-          return 'This field is required'
-        else return `This field must be a ${iss.expected}`
+          return 'This field is required.'
+        else return `This field must be a ${iss.expected}.`
 
       case 'too_big':
         switch (typeof iss.input) {
           case 'string':
-            return `This field must be lower than ${iss.maximum} characters`
+            return `This field must be lower than ${iss.maximum} characters.`
 
           case 'number':
-            return `This field must be lower than ${iss.maximum}`
+            return `This field must be lower than ${iss.maximum}.`
         }
         break
 
       case 'invalid_format':
         switch (iss.format) {
           case 'email':
-            return 'Invalid email address format'
+            return 'Invalid email address format.'
         }
         break
 
       default:
-        return 'Unknown error'
+        return 'Unknown error.'
     }
   },
 })
@@ -46,7 +46,12 @@ z.config({
 const userBaseSchema = z.object({
   id: z.int(),
   email: z.email().meta({ description: 'Email address' }),
-  username: z.string().max(255).min(1).meta({ description: 'Username' }),
+  username: z
+    .string()
+    .max(255)
+    .min(1)
+    .refine((s) => !s.includes(' '), "Can't contain spaces")
+    .meta({ description: 'Username' }),
   password: z
     .string()
     .min(1)
@@ -96,6 +101,12 @@ export const userProfileSchema = userBaseSchema.pick({
   bio: true,
 })
 export type UserProfile = z.infer<typeof userProfileSchema>
+
+export const userSenderSchema = userBaseSchema.pick({
+  id: true,
+  username: true,
+})
+export type MessageSender = z.infer<typeof userSenderSchema>
 //#endregion
 
 //#region Message Schemas
@@ -112,6 +123,10 @@ export const messageCreateSchema = messageBaseSchema.pick({
   content: true,
 })
 export type NewMessage = z.infer<typeof messageCreateSchema>
+
+export type ConversationMessage = Message & {
+  sender: MessageSender
+}
 //#endregion
 
 //#region Conversation Schemas
@@ -123,7 +138,10 @@ export const conversationBaseSchema = z.object({
     .nullable()
     .default(null)
     .meta({ description: 'Conversation Name' }),
-  isGroup: z.boolean().meta({ description: 'Is Group Conversation' }),
+  isGroup: z
+    .boolean()
+    .optional()
+    .meta({ description: 'Is Group Conversation', noRender: true }),
 })
 export type Conversation = z.infer<typeof conversationBaseSchema>
 
@@ -132,4 +150,17 @@ export const conversationSnippetSchema = conversationBaseSchema.extend({
   lastSeenAt: z.coerce.string().nullable(),
 })
 export type ConversationSnippet = z.infer<typeof conversationSnippetSchema>
+
+export const conversationCreateSchema = conversationBaseSchema
+  .pick({
+    name: true,
+    isGroup: true,
+  })
+  .extend({
+    participantUsernames: z
+      .array(z.string())
+      .min(2, 'A conversation must contain two users at least')
+      .meta({ description: 'Participant Usernames', type: 'tags' }),
+  })
+export type ConversationUpdateSchema = z.infer<typeof conversationCreateSchema>
 //#endregion
