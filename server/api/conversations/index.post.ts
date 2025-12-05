@@ -35,19 +35,23 @@ export default defineEventHandler(async (event) => {
       ])
     }
 
-    const usersFingerprint = existingIds.sort((a, b) => a - b).join('_')
+    let usersFingerprint: string | null = null
 
-    const existingConversation = await db.query.conversations.findFirst({
-      where: eq(conversations.usersFingerprint, usersFingerprint),
-      columns: { id: true },
-    })
+    if (!data.isGroup) {
+      usersFingerprint = existingIds.sort((a, b) => a - b).join('_')
 
-    if (existingConversation) {
-      throw new ResourceConflictError('Conversation already exists', {
-        meta: {
-          existingConversationId: existingConversation.id,
-        },
+      const existingConversation = await db.query.conversations.findFirst({
+        where: eq(conversations.usersFingerprint, usersFingerprint),
+        columns: { id: true },
       })
+
+      if (existingConversation) {
+        throw new ResourceConflictError('Conversation already exists', {
+          meta: {
+            existingConversationId: existingConversation.id,
+          },
+        })
+      }
     }
 
     const conversation = await db.transaction(async (tx) => {

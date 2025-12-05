@@ -57,6 +57,13 @@
       "when": 1764511908802,
       "tag": "0007_hard_sway",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1764929625981,
+      "tag": "0008_nebulous_micromacro",
+      "breakpoints": true
     }
   ]
 }

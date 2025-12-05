@@ -1,0 +1,1 @@
+ALTER TABLE "conversations" ALTER COLUMN "users_fingerprint" DROP NOT NULL;
