@@ -9,6 +9,15 @@ export async function requireConversationAccess(
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 
+  if (!conversationId) {
+    throw new InputValidationError([
+      {
+        field: 'conversationId',
+        message: 'Conversation Id must be a positive number',
+      },
+    ])
+  }
+
   const link = await db.query.usersToConversations.findFirst({
     where: and(
       eq(usersToConversations.userId, userId),
