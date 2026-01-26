@@ -15,12 +15,14 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-    await db
-      .update(usersToConversations)
-      .set({
-        lastSeenAt: new Date(),
-      })
-      .where(eq(usersToConversations.userId, event.context.user.id))
+    if (process.env.APP_MODE !== 'demo') {
+      await db
+        .update(usersToConversations)
+        .set({
+          lastSeenAt: new Date(),
+        })
+        .where(eq(usersToConversations.userId, event.context.user.id))
+    }
 
     return convMessages
   } catch (error) {
