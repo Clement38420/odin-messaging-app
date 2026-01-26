@@ -21,6 +21,7 @@ ENV PORT=3000
 ENV HOST=0.0.0.0
 ENV NODE_ENV=production
 
+COPY --from=build /app/drizzle ./drizzle
 COPY --from=build /app/.output /app/.output
 
 EXPOSE 3000
