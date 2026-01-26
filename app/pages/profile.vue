@@ -25,6 +25,7 @@ const authStore = useAuthStore()
         :options="{
           method: 'PATCH',
           initialValues: authStore.getUserProfile()!,
+          submitText: 'Update Profile',
         }"
       />
     </BaseCard>
