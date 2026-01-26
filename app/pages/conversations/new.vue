@@ -11,7 +11,7 @@ const formOptions = {
     const username = authStore.getUserUsername() as string
 
     if (!fields.participantUsernames.value.includes(username)) {
-      ;(fields.participantUsernames!.value as streing[]).push(
+      ;(fields.participantUsernames!.value as string[]).push(
         authStore.getUserUsername(),
       )
     }
