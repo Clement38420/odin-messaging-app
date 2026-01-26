@@ -4,7 +4,9 @@ import type { z } from 'zod'
 const props = defineProps<{
   schema: z.ZodObject
   apiEndpoint: string
-  options?: UseFormOptions & { submitText?: string }
+  options?: UseFormOptions & { submitText?: string } & {
+    disableSubmit?: boolean
+  }
 }>()
 
 const { fields, errors, isSubmitPending, submit } = useForm(
@@ -38,7 +40,12 @@ provide('submit', submit)
       </p>
     </slot>
     <slot name="submit-button">
-      <BaseButton color="primary">
+      <BaseButton
+        color="primary"
+        :style="
+          options?.disableSubmit ? 'pointer-events: none; opacity: 0.5;' : ''
+        "
+      >
         <Icon
           v-show="isSubmitPending"
           class="align-middle"

@@ -3,6 +3,8 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { canLeaveConversations } = useFeatures()
+
 const { $api } = useNuxtApp()
 const conversationsStore = useConversationsStore()
 const authStore = useAuthStore()
@@ -76,6 +78,11 @@ async function leaveConversation() {
 
       <BaseButton
         v-if="conversation?.isGroup"
+        :style="[
+          !canLeaveConversations
+            ? { pointerEvents: 'none', opacity: '0.5' }
+            : {},
+        ]"
         color="danger"
         class="mt-10 self-end px-6"
         @click="leaveConversation"

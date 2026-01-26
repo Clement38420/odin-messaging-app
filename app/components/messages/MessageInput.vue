@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { z } from 'zod'
 
+const { canSendMessage } = useFeatures()
+
 const emit = defineEmits<{
   (e: 'message-sent', message: ConversationMessage): void
 }>()
@@ -50,6 +52,7 @@ const isMessageOverLimit = computed(
     <div
       class="absolute top-[60%] right-5 flex -translate-y-[50%] flex-col items-center"
       :class="isMessageOverLimit ? '!text-error' : ''"
+      :style="canSendMessage ? '' : 'pointer-events: none; opacity: 0.5;'"
     >
       <button
         class="not-disabled:hover:text-primary-light right-5 w-min origin-center -translate-y-2 transition not-disabled:hover:scale-120 not-disabled:hover:-rotate-30"

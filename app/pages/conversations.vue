@@ -3,6 +3,7 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { canCreateConversation } = useFeatures()
 const route = useRoute()
 const conversationsStore = useConversationsStore()
 
@@ -16,7 +17,12 @@ await useAsyncData('conversations-list', () =>
     <aside
       class="col-span-2 flex flex-col gap-4 overflow-y-auto border-gray-200 p-8"
     >
-      <NuxtLink to="/conversations/new">
+      <NuxtLink
+        to="/conversations/new"
+        :style="
+          canCreateConversation ? '' : 'pointer-events: none; opacity: 0.5;'
+        "
+      >
         <BaseCard
           class="text-secondary justify hover-effect flex w-full justify-center gap-2 text-center !shadow-md"
         >

@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from '@tailwindcss/vite'
+import 'dotenv/config'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -17,5 +18,10 @@ export default defineNuxtConfig({
   },
   devServer: {
     host: '0.0.0.0',
+  },
+  runtimeConfig: {
+    public: {
+      appMode: process.env.APP_MODE,
+    },
   },
 })

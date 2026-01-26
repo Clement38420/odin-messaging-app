@@ -4,6 +4,8 @@ definePageMeta({
   layout: false,
 })
 
+const { canCreateAccount } = useFeatures()
+
 const authStore = useAuthStore()
 
 async function onSuccess() {
@@ -27,7 +29,12 @@ async function onSuccess() {
         :options="{ onSuccess, submitText: 'Login' }"
       >
       </FormsVForm>
-      <NuxtLink class="mt-2 self-center text-sm underline" to="/register"
+      <NuxtLink
+        :style="[
+          !canCreateAccount ? { pointerEvents: 'none', opacity: '0.5' } : {},
+        ]"
+        class="mt-2 self-center text-sm underline"
+        to="/register"
         >Register</NuxtLink
       >
     </BaseCard>

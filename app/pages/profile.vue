@@ -3,6 +3,8 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { canEditProfile } = useFeatures()
+
 const authStore = useAuthStore()
 </script>
 
@@ -26,6 +28,7 @@ const authStore = useAuthStore()
           method: 'PATCH',
           initialValues: authStore.getUserProfile()!,
           submitText: 'Update Profile',
+          disableSubmit: !canEditProfile,
         }"
       />
     </BaseCard>
