@@ -13,7 +13,7 @@ async function logout() {
 </script>
 
 <template>
-  <div class="relative grid h-dvh grid-cols-1 grid-rows-[4rem_1fr_3rem]">
+  <div class="relative grid h-dvh grid-cols-1 grid-rows-[4rem_1fr]">
     <header
       class="bg-bg-base flex items-center justify-between p-4 text-center shadow-md"
     >
@@ -50,7 +50,6 @@ async function logout() {
     <div class="relative flex h-full flex-col justify-center">
       <slot></slot>
     </div>
-    <footer class="text-center">Footer</footer>
   </div>
 </template>
 
